@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from gslides_api.domain import PageElement, ShapeType
 
@@ -62,3 +62,80 @@ def element_to_create_request(e: PageElement, parent_id: str) -> List[Dict[str, 
         ]
     else:
         raise ValueError(f"Unsupported element type {e}")
+
+
+def element_to_update_request(
+    e: PageElement, element_id: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """Convert a PageElement to an update request for the Google Slides API.
+
+    :param e: The PageElement to convert
+    :type e: :class:`PageElement`
+    :param element_id: The id of the element to update, if not the same as e objectId
+    :type element_id: str, optional
+    :return: The update request
+    :rtype: list
+
+    """
+
+    if element_id is None:
+        element_id = e.objectId
+
+    if e.shape is not None:
+        shape_properties = e.shape.shapeProperties.to_api_format()
+        out = []
+        # out = [
+        #     {
+        #         "updateShapeProperties": {
+        #             "objectId": element_id,
+        #             "shapeProperties": shape_properties,
+        #             "fields": ",".join(get_dot_separated_fields(shape_properties)),
+        #         }
+        #     }
+        # ]
+        if e.shape.text is None:
+            return out
+        for te in e.shape.text.textElements:
+            if te.textRun is None:
+                # TODO: What is the role of empty ParagraphMarkers?
+                continue
+
+            style = te.textRun.style.to_api_format()
+            out.append(
+                [
+                    {
+                        "insertText": {
+                            "objectId": element_id,
+                            "text": te.textRun.content,
+                            "insertionIndex": te.startIndex,
+                        }
+                    },
+                    {
+                        "updateTextStyle": {
+                            "objectId": element_id,
+                            "textRange": {
+                                "startIndex": te.startIndex,
+                                "endIndex": te.endIndex,
+                                "type": "FIXED_RANGE",
+                            },
+                            "style": style,
+                            "fields": "*",
+                        }
+                    },
+                ]
+            )
+        return out
+    else:
+        raise NotImplementedError
+
+
+def get_dot_separated_fields(x: dict) -> List[str]:
+    keys = x.keys()
+    out = []
+    for k in keys:
+        if isinstance(x[k], dict):
+            out += [f"{k}.{subkey}" for subkey in get_dot_separated_fields(x[k])]
+
+        else:
+            out.append(k)
+    return out

@@ -46,5 +46,5 @@ print(
 )
 
 slide = presentation.slides[7]
-slide.write(presentation_id=presentation_id, insertion_index=7)
+slide.write(presentation_id=presentation_id, insertion_index=8)
 print("Slide written successfully")

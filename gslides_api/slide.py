@@ -1,8 +1,10 @@
 from typing import Optional, List, Dict, Any
 import logging
+
+from jupyter_client.session import new_id
 from pydantic import BaseModel
 
-from gslides_api.create import element_to_create_request
+from gslides_api.create import element_to_create_request, element_to_update_request
 from gslides_api.domain import PageElement, SlideProperties, PageProperties
 from gslides_api.execute import slides_batch_update
 
@@ -51,9 +53,10 @@ class Slide(BaseModel):
 
         base = {} if insertion_index is None else {"insertionIndex": insertion_index}
 
+        return_values = []
         out = slides_batch_update([{"createSlide": base}], presentation_id)
-        self.objectId = out["replies"][0]["createSlide"]["objectId"]
-
+        new_slide_id = out["replies"][0]["createSlide"]["objectId"]
+        return_values.append(out)
         requests = []
         # requests.append(
         #     {
@@ -66,5 +69,14 @@ class Slide(BaseModel):
         # TODO: how about SlideProperties?
         if self.pageElements is not None:
             for element in self.pageElements:
-                this_request = element_to_create_request(element, self.objectId)
-                requests += this_request
+                create_request = element_to_create_request(element, new_slide_id)
+                out = slides_batch_update(create_request, presentation_id)
+                return_values.append(out)
+                if out is not None and "createShape" in out["replies"][0]:
+                    new_element_id = out["replies"][0]["createShape"]["objectId"]
+                    update_request = element_to_update_request(element, new_element_id)
+                    if update_request is not None and len(update_request):
+                        out = slides_batch_update(update_request, presentation_id)
+                        return_values.append(out)
+
+        print("Slide created successfully!")
