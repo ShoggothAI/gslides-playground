@@ -4,7 +4,15 @@ from pydantic import BaseModel, Field, model_validator
 from pydantic.json import pydantic_encoder
 
 
-class SizeWithUnit(BaseModel):
+class GSlidesBaseModel(BaseModel):
+    """Base class for all models in the Google Slides API."""
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class SizeWithUnit(GSlidesBaseModel):
     """Represents a size dimension with magnitude and unit."""
 
     magnitude: float
@@ -25,7 +33,7 @@ class SizeWithUnit(BaseModel):
         raise ValueError(f"Cannot convert {data} to SizeWithUnit")
 
 
-class Size(BaseModel):
+class Size(GSlidesBaseModel):
     """Represents a size with width and height."""
 
     width: Union[float, SizeWithUnit]
@@ -56,11 +64,8 @@ class Size(BaseModel):
         return {"width": width_val, "height": height_val}
 
 
-class Transform(BaseModel):
+class Transform(GSlidesBaseModel):
     """Represents a transformation applied to an element."""
-
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
 
     translateX: float
     translateY: float
@@ -113,7 +118,7 @@ class PlaceholderType(Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class TextStyle(BaseModel):
+class TextStyle(GSlidesBaseModel):
     """Represents styling for text."""
 
     # We'll use Optional for all fields and only include them in the output if they're present in the original
@@ -135,7 +140,7 @@ class TextStyle(BaseModel):
         return {k: v for k, v in super().model_dump(exclude_none=True).items()}
 
 
-class ParagraphStyle(BaseModel):
+class ParagraphStyle(GSlidesBaseModel):
     """Represents styling for paragraphs."""
 
     direction: str = "LEFT_TO_RIGHT"
@@ -147,7 +152,7 @@ class ParagraphStyle(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class BulletStyle(BaseModel):
+class BulletStyle(GSlidesBaseModel):
     """Represents styling for bullets in lists."""
 
     glyph: Optional[str] = None
@@ -162,7 +167,7 @@ class BulletStyle(BaseModel):
         return super().model_dump(exclude_none=True, exclude_defaults=True)
 
 
-class ParagraphMarker(BaseModel):
+class ParagraphMarker(GSlidesBaseModel):
     """Represents a paragraph marker with styling."""
 
     style: ParagraphStyle = Field(default_factory=ParagraphStyle)
@@ -176,7 +181,7 @@ class ParagraphMarker(BaseModel):
         return result
 
 
-class TextRun(BaseModel):
+class TextRun(GSlidesBaseModel):
     """Represents a run of text with consistent styling."""
 
     content: str
@@ -187,7 +192,7 @@ class TextRun(BaseModel):
         return {"content": self.content, "style": self.style.to_api_format()}
 
 
-class TextElement(BaseModel):
+class TextElement(GSlidesBaseModel):
     """Represents an element within text content."""
 
     endIndex: int
@@ -211,7 +216,7 @@ class TextElement(BaseModel):
         return result
 
 
-class Text(BaseModel):
+class Text(GSlidesBaseModel):
     """Represents text content with its elements and lists."""
 
     textElements: List[TextElement]
@@ -227,7 +232,7 @@ class Text(BaseModel):
         return result
 
 
-class RgbColor(BaseModel):
+class RgbColor(GSlidesBaseModel):
     """Represents an RGB color."""
 
     red: Optional[float] = None
@@ -239,7 +244,7 @@ class RgbColor(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class Color(BaseModel):
+class Color(GSlidesBaseModel):
     """Represents a color with RGB values."""
 
     rgbColor: Optional[RgbColor] = None
@@ -249,7 +254,7 @@ class Color(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class SolidFill(BaseModel):
+class SolidFill(GSlidesBaseModel):
     """Represents a solid fill with color and alpha."""
 
     color: Optional[Color] = None
@@ -260,7 +265,7 @@ class SolidFill(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class ShapeBackgroundFill(BaseModel):
+class ShapeBackgroundFill(GSlidesBaseModel):
     """Represents the background fill of a shape."""
 
     solidFill: Optional[SolidFill] = None
@@ -271,7 +276,7 @@ class ShapeBackgroundFill(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class OutlineFill(BaseModel):
+class OutlineFill(GSlidesBaseModel):
     """Represents the fill of an outline."""
 
     solidFill: Optional[SolidFill] = None
@@ -281,7 +286,7 @@ class OutlineFill(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class Weight(BaseModel):
+class Weight(GSlidesBaseModel):
     """Represents the weight of an outline."""
 
     magnitude: Optional[float] = None
@@ -292,7 +297,7 @@ class Weight(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class Outline(BaseModel):
+class Outline(GSlidesBaseModel):
     """Represents an outline of a shape."""
 
     outlineFill: Optional[OutlineFill] = None
@@ -304,7 +309,7 @@ class Outline(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class ShadowTransform(BaseModel):
+class ShadowTransform(GSlidesBaseModel):
     """Represents a shadow transform."""
 
     scaleX: Optional[float] = None
@@ -316,7 +321,7 @@ class ShadowTransform(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class BlurRadius(BaseModel):
+class BlurRadius(GSlidesBaseModel):
     """Represents a blur radius."""
 
     magnitude: Optional[float] = None
@@ -327,7 +332,7 @@ class BlurRadius(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class Shadow(BaseModel):
+class Shadow(GSlidesBaseModel):
     """Represents a shadow."""
 
     transform: Optional[ShadowTransform] = None
@@ -342,7 +347,7 @@ class Shadow(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class ShapeProperties(BaseModel):
+class ShapeProperties(GSlidesBaseModel):
     """Represents properties of a shape."""
 
     shapeBackgroundFill: Optional[ShapeBackgroundFill] = None
@@ -355,7 +360,7 @@ class ShapeProperties(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class Placeholder(BaseModel):
+class Placeholder(GSlidesBaseModel):
     """Represents a placeholder in a slide."""
 
     type: PlaceholderType
@@ -372,11 +377,8 @@ class Placeholder(BaseModel):
         return result
 
 
-class Shape(BaseModel):
+class Shape(GSlidesBaseModel):
     """Represents a shape in a slide."""
-
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
 
     shapeProperties: ShapeProperties
     shapeType: Optional[ShapeType] = None  # Make optional to preserve original JSON exactly
@@ -407,11 +409,8 @@ class Shape(BaseModel):
         return result
 
 
-class Table(BaseModel):
+class Table(GSlidesBaseModel):
     """Represents a table in a slide."""
-
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
 
     rows: Optional[int] = None
     columns: Optional[int] = None
@@ -426,11 +425,8 @@ class Table(BaseModel):
         return super().model_dump(exclude_none=True)
 
 
-class Image(BaseModel):
+class Image(GSlidesBaseModel):
     """Represents an image in a slide."""
-
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
 
     contentUrl: Optional[str] = None
     imageProperties: Optional[Dict[str, Any]] = None
@@ -450,7 +446,7 @@ class VideoSourceType(Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class VideoSource(BaseModel):
+class VideoSource(GSlidesBaseModel):
     """Represents a video source with type and optional ID."""
 
     type: VideoSourceType
@@ -474,11 +470,8 @@ class VideoSource(BaseModel):
         return result
 
 
-class Video(BaseModel):
+class Video(GSlidesBaseModel):
     """Represents a video in a slide."""
-
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
 
     url: Optional[str] = None
     videoProperties: Optional[Dict[str, Any]] = None
@@ -521,11 +514,8 @@ class Video(BaseModel):
         return result
 
 
-class PageElement(BaseModel):
+class PageElement(GSlidesBaseModel):
     """Represents an element on a slide."""
-
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
 
     objectId: str
     size: Size
@@ -564,7 +554,7 @@ class PageElement(BaseModel):
         return result
 
 
-class PageProperties(BaseModel):
+class PageProperties(GSlidesBaseModel):
     """Represents properties of a page."""
 
     pageBackgroundFill: Dict[str, Any]
@@ -574,7 +564,7 @@ class PageProperties(BaseModel):
         return {"pageBackgroundFill": self.pageBackgroundFill}
 
 
-class NotesProperties(BaseModel):
+class NotesProperties(GSlidesBaseModel):
     """Represents properties of notes."""
 
     speakerNotesObjectId: str
@@ -584,7 +574,7 @@ class NotesProperties(BaseModel):
         return {"speakerNotesObjectId": self.speakerNotesObjectId}
 
 
-class NotesPage(BaseModel):
+class NotesPage(GSlidesBaseModel):
     """Represents a notes page associated with a slide."""
 
     objectId: str
@@ -608,7 +598,7 @@ class NotesPage(BaseModel):
         return result
 
 
-class SlideProperties(BaseModel):
+class SlideProperties(GSlidesBaseModel):
     """Represents properties of a slide."""
 
     layoutObjectId: str

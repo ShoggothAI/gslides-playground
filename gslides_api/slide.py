@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 class Slide(BaseModel):
     """Represents a slide in a presentation."""
 
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
-
     objectId: str
     pageElements: Optional[List[PageElement]] = (
         None  # Make optional to preserve original JSON exactly
