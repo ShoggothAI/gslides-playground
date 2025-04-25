@@ -4,12 +4,6 @@ from pydantic import BaseModel, Field, model_validator
 from pydantic.json import pydantic_encoder
 
 
-class GSlidesBaseModel(BaseModel):
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
-
-
 class SizeWithUnit(BaseModel):
     """Represents a size dimension with magnitude and unit."""
 
@@ -138,7 +132,7 @@ class TextStyle(BaseModel):
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
         # Only include fields that are not None
-        return {k: v for k, v in self.model_dump(exclude_none=True).items()}
+        return {k: v for k, v in super().model_dump(exclude_none=True).items()}
 
 
 class ParagraphStyle(BaseModel):
@@ -150,7 +144,7 @@ class ParagraphStyle(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class BulletStyle(BaseModel):
@@ -165,7 +159,7 @@ class BulletStyle(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True, exclude_defaults=True)
+        return super().model_dump(exclude_none=True, exclude_defaults=True)
 
 
 class ParagraphMarker(BaseModel):
@@ -242,7 +236,7 @@ class RgbColor(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class Color(BaseModel):
@@ -252,7 +246,7 @@ class Color(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class SolidFill(BaseModel):
@@ -263,7 +257,7 @@ class SolidFill(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class ShapeBackgroundFill(BaseModel):
@@ -274,7 +268,7 @@ class ShapeBackgroundFill(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class OutlineFill(BaseModel):
@@ -284,7 +278,7 @@ class OutlineFill(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class Weight(BaseModel):
@@ -295,7 +289,7 @@ class Weight(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class Outline(BaseModel):
@@ -307,7 +301,7 @@ class Outline(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class ShadowTransform(BaseModel):
@@ -319,7 +313,7 @@ class ShadowTransform(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class BlurRadius(BaseModel):
@@ -330,7 +324,7 @@ class BlurRadius(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class Shadow(BaseModel):
@@ -345,7 +339,7 @@ class Shadow(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class ShapeProperties(BaseModel):
@@ -358,7 +352,7 @@ class ShapeProperties(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class Placeholder(BaseModel):
@@ -429,7 +423,7 @@ class Table(BaseModel):
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
         # Include all fields, including extra ones captured by model_config
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class Image(BaseModel):
@@ -445,7 +439,7 @@ class Image(BaseModel):
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
         # Include all fields, including extra ones captured by model_config
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class VideoSourceType(Enum):
@@ -512,7 +506,7 @@ class Video(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        result = self.model_dump(exclude={"source"}, exclude_none=True)
+        result = super().model_dump(exclude={"source"}, exclude_none=True)
 
         if self.source is not None:
             if isinstance(self.source, VideoSource):
