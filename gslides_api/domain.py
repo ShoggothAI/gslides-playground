@@ -235,6 +235,7 @@ class Text(BaseModel):
 
 class RgbColor(BaseModel):
     """Represents an RGB color."""
+
     red: Optional[float] = None
     green: Optional[float] = None
     blue: Optional[float] = None
@@ -246,6 +247,7 @@ class RgbColor(BaseModel):
 
 class Color(BaseModel):
     """Represents a color with RGB values."""
+
     rgbColor: Optional[RgbColor] = None
 
     def to_api_format(self) -> Dict[str, Any]:
@@ -255,6 +257,7 @@ class Color(BaseModel):
 
 class SolidFill(BaseModel):
     """Represents a solid fill with color and alpha."""
+
     color: Optional[Color] = None
     alpha: Optional[float] = None
 
@@ -265,6 +268,7 @@ class SolidFill(BaseModel):
 
 class ShapeBackgroundFill(BaseModel):
     """Represents the background fill of a shape."""
+
     solidFill: Optional[SolidFill] = None
     propertyState: Optional[str] = None
 
@@ -275,6 +279,7 @@ class ShapeBackgroundFill(BaseModel):
 
 class OutlineFill(BaseModel):
     """Represents the fill of an outline."""
+
     solidFill: Optional[SolidFill] = None
 
     def to_api_format(self) -> Dict[str, Any]:
@@ -284,6 +289,7 @@ class OutlineFill(BaseModel):
 
 class Weight(BaseModel):
     """Represents the weight of an outline."""
+
     magnitude: Optional[float] = None
     unit: Optional[str] = None
 
@@ -294,6 +300,7 @@ class Weight(BaseModel):
 
 class Outline(BaseModel):
     """Represents an outline of a shape."""
+
     outlineFill: Optional[OutlineFill] = None
     weight: Optional[Weight] = None
     propertyState: Optional[str] = None
@@ -305,6 +312,7 @@ class Outline(BaseModel):
 
 class ShadowTransform(BaseModel):
     """Represents a shadow transform."""
+
     scaleX: Optional[float] = None
     scaleY: Optional[float] = None
     unit: Optional[str] = None
@@ -316,6 +324,7 @@ class ShadowTransform(BaseModel):
 
 class BlurRadius(BaseModel):
     """Represents a blur radius."""
+
     magnitude: Optional[float] = None
     unit: Optional[str] = None
 
@@ -326,6 +335,7 @@ class BlurRadius(BaseModel):
 
 class Shadow(BaseModel):
     """Represents a shadow."""
+
     transform: Optional[ShadowTransform] = None
     blurRadius: Optional[BlurRadius] = None
     color: Optional[Color] = None
@@ -356,13 +366,13 @@ class Placeholder(BaseModel):
 
     type: PlaceholderType
     parentObjectId: str
-    index: int = 0
+    index: Optional[int] = None
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
         result = {"type": self.type.value, "parentObjectId": self.parentObjectId}
 
-        if self.index != 0:
+        if self.index is not None:
             result["index"] = self.index
 
         return result
