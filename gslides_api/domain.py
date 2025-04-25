@@ -233,12 +233,117 @@ class Text(BaseModel):
         return result
 
 
+class RgbColor(BaseModel):
+    """Represents an RGB color."""
+    red: Optional[float] = None
+    green: Optional[float] = None
+    blue: Optional[float] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class Color(BaseModel):
+    """Represents a color with RGB values."""
+    rgbColor: Optional[RgbColor] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class SolidFill(BaseModel):
+    """Represents a solid fill with color and alpha."""
+    color: Optional[Color] = None
+    alpha: Optional[float] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class ShapeBackgroundFill(BaseModel):
+    """Represents the background fill of a shape."""
+    solidFill: Optional[SolidFill] = None
+    propertyState: Optional[str] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class OutlineFill(BaseModel):
+    """Represents the fill of an outline."""
+    solidFill: Optional[SolidFill] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class Weight(BaseModel):
+    """Represents the weight of an outline."""
+    magnitude: Optional[float] = None
+    unit: Optional[str] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class Outline(BaseModel):
+    """Represents an outline of a shape."""
+    outlineFill: Optional[OutlineFill] = None
+    weight: Optional[Weight] = None
+    propertyState: Optional[str] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class ShadowTransform(BaseModel):
+    """Represents a shadow transform."""
+    scaleX: Optional[float] = None
+    scaleY: Optional[float] = None
+    unit: Optional[str] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class BlurRadius(BaseModel):
+    """Represents a blur radius."""
+    magnitude: Optional[float] = None
+    unit: Optional[str] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
+class Shadow(BaseModel):
+    """Represents a shadow."""
+    transform: Optional[ShadowTransform] = None
+    blurRadius: Optional[BlurRadius] = None
+    color: Optional[Color] = None
+    alpha: Optional[float] = None
+    rotateWithShape: Optional[bool] = None
+    propertyState: Optional[str] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        return self.model_dump(exclude_none=True)
+
+
 class ShapeProperties(BaseModel):
     """Represents properties of a shape."""
 
-    shapeBackgroundFill: Optional[Dict[str, str]] = None
-    outline: Optional[Dict[str, str]] = None
-    shadow: Optional[Dict[str, str]] = None
+    shapeBackgroundFill: Optional[ShapeBackgroundFill] = None
+    outline: Optional[Outline] = None
+    shadow: Optional[Shadow] = None
     autofit: Optional[Dict[str, Any]] = None
 
     def to_api_format(self) -> Dict[str, Any]:

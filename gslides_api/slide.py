@@ -1,9 +1,12 @@
 from typing import Optional, List, Dict, Any
-
+import logging
 from pydantic import BaseModel
 
+from gslides_api.create import element_to_create_request
 from gslides_api.domain import PageElement, SlideProperties, PageProperties
 from gslides_api.execute import slides_batch_update
+
+logger = logging.getLogger(__name__)
 
 
 class Slide(BaseModel):
@@ -45,7 +48,23 @@ class Slide(BaseModel):
         Args:
             presentation_id: The ID of the presentation to write to.
         """
-        requests = []
+
         base = {} if insertion_index is None else {"insertionIndex": insertion_index}
-        requests.append({"createSlide": base})
-        slides_batch_update(requests, presentation_id)
+
+        out = slides_batch_update([{"createSlide": base}], presentation_id)
+        self.objectId = out["replies"][0]["createSlide"]["objectId"]
+
+        requests = []
+        # requests.append(
+        #     {
+        #         "updatePageProperties": {
+        #             "objectId": self.objectId,
+        #             "properties": self.pageProperties.to_api_format(),
+        #         }
+        #     }
+        # )
+        # TODO: how about SlideProperties?
+        if self.pageElements is not None:
+            for element in self.pageElements:
+                this_request = element_to_create_request(element, self.objectId)
+                requests += this_request
