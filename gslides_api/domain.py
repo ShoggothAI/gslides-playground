@@ -9,7 +9,7 @@ class GSlidesBaseModel(BaseModel):
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return self.model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True)
 
 
 class SizeWithUnit(GSlidesBaseModel):
@@ -17,10 +17,6 @@ class SizeWithUnit(GSlidesBaseModel):
 
     magnitude: float
     unit: str = "EMU"  # Engineering Measurement Unit
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return {"magnitude": self.magnitude, "unit": self.unit}
 
     @classmethod
     def from_api_format(cls, data: Dict[str, Any]) -> "SizeWithUnit":
@@ -73,27 +69,6 @@ class Transform(GSlidesBaseModel):
     scaleY: float
     unit: Optional[str] = None  # Make optional to preserve original JSON exactly
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        # Start with a copy of any extra fields
-        result = {
-            k: v
-            for k, v in self.__dict__.items()
-            if k not in ["translateX", "translateY", "scaleX", "scaleY", "unit"]
-        }
-
-        # Add the standard fields
-        result["translateX"] = self.translateX
-        result["translateY"] = self.translateY
-        result["scaleX"] = self.scaleX
-        result["scaleY"] = self.scaleY
-
-        # Only include unit if it was in the original
-        if self.unit is not None:
-            result["unit"] = self.unit
-
-        return result
-
 
 class ShapeType(Enum):
     """Enumeration of possible shape types."""
@@ -134,11 +109,6 @@ class TextStyle(GSlidesBaseModel):
     baselineOffset: Optional[str] = None
     smallCaps: Optional[bool] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        # Only include fields that are not None
-        return {k: v for k, v in super().model_dump(exclude_none=True).items()}
-
 
 class ParagraphStyle(GSlidesBaseModel):
     """Represents styling for paragraphs."""
@@ -146,10 +116,6 @@ class ParagraphStyle(GSlidesBaseModel):
     direction: str = "LEFT_TO_RIGHT"
     indentStart: Optional[Dict[str, Any]] = None
     indentFirstLine: Optional[Dict[str, Any]] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
 
 
 class BulletStyle(GSlidesBaseModel):
@@ -162,23 +128,12 @@ class BulletStyle(GSlidesBaseModel):
     strikethrough: bool = False
     fontFamily: Optional[str] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True, exclude_defaults=True)
-
 
 class ParagraphMarker(GSlidesBaseModel):
     """Represents a paragraph marker with styling."""
 
     style: ParagraphStyle = Field(default_factory=ParagraphStyle)
     bullet: Optional[Dict[str, Any]] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {"style": self.style.to_api_format()}
-        if self.bullet is not None:
-            result["bullet"] = self.bullet
-        return result
 
 
 class TextRun(GSlidesBaseModel):
@@ -187,33 +142,14 @@ class TextRun(GSlidesBaseModel):
     content: str
     style: TextStyle = Field(default_factory=TextStyle)
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return {"content": self.content, "style": self.style.to_api_format()}
-
 
 class TextElement(GSlidesBaseModel):
     """Represents an element within text content."""
 
     endIndex: int
-    startIndex: int = 0
+    startIndex: Optional[int] = None
     paragraphMarker: Optional[ParagraphMarker] = None
     textRun: Optional[TextRun] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {"endIndex": self.endIndex}
-
-        if self.startIndex > 0:
-            result["startIndex"] = self.startIndex
-
-        if self.paragraphMarker is not None:
-            result["paragraphMarker"] = self.paragraphMarker.to_api_format()
-
-        if self.textRun is not None:
-            result["textRun"] = self.textRun.to_api_format()
-
-        return result
 
 
 class Text(GSlidesBaseModel):
@@ -221,15 +157,6 @@ class Text(GSlidesBaseModel):
 
     textElements: List[TextElement]
     lists: Optional[Dict[str, Any]] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {"textElements": [element.to_api_format() for element in self.textElements]}
-
-        if self.lists is not None:
-            result["lists"] = self.lists
-
-        return result
 
 
 class RgbColor(GSlidesBaseModel):
@@ -239,19 +166,11 @@ class RgbColor(GSlidesBaseModel):
     green: Optional[float] = None
     blue: Optional[float] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
-
 
 class Color(GSlidesBaseModel):
     """Represents a color with RGB values."""
 
     rgbColor: Optional[RgbColor] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
 
 
 class SolidFill(GSlidesBaseModel):
@@ -260,10 +179,6 @@ class SolidFill(GSlidesBaseModel):
     color: Optional[Color] = None
     alpha: Optional[float] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
-
 
 class ShapeBackgroundFill(GSlidesBaseModel):
     """Represents the background fill of a shape."""
@@ -271,19 +186,11 @@ class ShapeBackgroundFill(GSlidesBaseModel):
     solidFill: Optional[SolidFill] = None
     propertyState: Optional[str] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
-
 
 class OutlineFill(GSlidesBaseModel):
     """Represents the fill of an outline."""
 
     solidFill: Optional[SolidFill] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
 
 
 class Weight(GSlidesBaseModel):
@@ -291,10 +198,6 @@ class Weight(GSlidesBaseModel):
 
     magnitude: Optional[float] = None
     unit: Optional[str] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
 
 
 class Outline(GSlidesBaseModel):
@@ -304,10 +207,6 @@ class Outline(GSlidesBaseModel):
     weight: Optional[Weight] = None
     propertyState: Optional[str] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
-
 
 class ShadowTransform(GSlidesBaseModel):
     """Represents a shadow transform."""
@@ -316,20 +215,12 @@ class ShadowTransform(GSlidesBaseModel):
     scaleY: Optional[float] = None
     unit: Optional[str] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
-
 
 class BlurRadius(GSlidesBaseModel):
     """Represents a blur radius."""
 
     magnitude: Optional[float] = None
     unit: Optional[str] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
 
 
 class Shadow(GSlidesBaseModel):
@@ -342,10 +233,6 @@ class Shadow(GSlidesBaseModel):
     rotateWithShape: Optional[bool] = None
     propertyState: Optional[str] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
-
 
 class ShapeProperties(GSlidesBaseModel):
     """Represents properties of a shape."""
@@ -354,10 +241,6 @@ class ShapeProperties(GSlidesBaseModel):
     outline: Optional[Outline] = None
     shadow: Optional[Shadow] = None
     autofit: Optional[Dict[str, Any]] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
 
 
 class Placeholder(GSlidesBaseModel):
@@ -419,11 +302,6 @@ class Table(GSlidesBaseModel):
     horizontalBorderRows: Optional[List[Dict[str, Any]]] = None
     verticalBorderRows: Optional[List[Dict[str, Any]]] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        # Include all fields, including extra ones captured by model_config
-        return super().model_dump(exclude_none=True)
-
 
 class Image(GSlidesBaseModel):
     """Represents an image in a slide."""
@@ -431,11 +309,6 @@ class Image(GSlidesBaseModel):
     contentUrl: Optional[str] = None
     imageProperties: Optional[Dict[str, Any]] = None
     sourceUrl: Optional[str] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        # Include all fields, including extra ones captured by model_config
-        return super().model_dump(exclude_none=True)
 
 
 class VideoSourceType(Enum):
@@ -461,13 +334,6 @@ class VideoSource(GSlidesBaseModel):
         elif isinstance(data, dict) and "type" in data:
             return cls(type=VideoSourceType(data["type"]), id=data.get("id"))
         raise ValueError(f"Cannot convert {data} to VideoSource")
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {"type": self.type.value}
-        if self.id is not None:
-            result["id"] = self.id
-        return result
 
 
 class Video(GSlidesBaseModel):
@@ -559,19 +425,11 @@ class PageProperties(GSlidesBaseModel):
 
     pageBackgroundFill: Dict[str, Any]
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return {"pageBackgroundFill": self.pageBackgroundFill}
-
 
 class NotesProperties(GSlidesBaseModel):
     """Represents properties of notes."""
 
     speakerNotesObjectId: str
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        return {"speakerNotesObjectId": self.speakerNotesObjectId}
 
 
 class NotesPage(GSlidesBaseModel):

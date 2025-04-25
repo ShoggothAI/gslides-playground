@@ -7,3 +7,9 @@ This repo contains Pydantic domain objects matching the JSON that the google sli
 It also contains methods to create Google Slide objects back from these domain objects. 
 The set of methods is unfortunately incomplete as the Google Slides REST API's structure
 is only partially aligned to the structure of the JSON returned by the API.
+
+Example of running it to first get complete data from a presentation as a domain object,
+then use that object to (almost successfully, so far :) ) clone a slide in it, is in
+`playground/replace.py`. 
+
+Instructions on how to create the right `credentials.json` are in [CREDENTIALS.md](CREDENTIALS.md)
