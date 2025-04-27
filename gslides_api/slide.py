@@ -2,7 +2,6 @@ from typing import Optional, List, Dict, Any
 import logging
 import copy
 
-from jupyter_client.session import new_id
 from pydantic import BaseModel
 
 
@@ -10,7 +9,7 @@ from gslides_api.domain import PageProperties, GSlidesBaseModel
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
 from gslides_api.notes import NotesPage
-from gslides_api.utils import duplicate, delete
+from gslides_api.utils import duplicate_object, delete_object
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +69,8 @@ class Slide(BaseModel):
 
         return result
 
-    def create_blank(self, presentation_id: str, insertion_index: Optional[int] = None) -> "Slide":
+    @classmethod
+    def create_blank(cls, presentation_id: str, insertion_index: Optional[int] = None) -> "Slide":
         """Create a blank slide in a Google Slides presentation.
 
         Args:
@@ -83,37 +83,28 @@ class Slide(BaseModel):
         new_slide_id = out["replies"][0]["createSlide"]["objectId"]
         # To avoid circular imports
         from gslides_api.presentation import Presentation
+
         # If there is a way to just read a single slide, I haven't found it
         p = Presentation.from_id(presentation_id)
         new_slide = [s for s in p.slides if s.objectId == new_slide_id][0]
         return new_slide
 
-    def write(
+    def write_copy(
         self,
-        presentation_id: str,
+        presentation_id: Optional[str] = None,
         insertion_index: Optional[int] = None,
-        slide_id: Optional[str] = None,
     ) -> "Slide":
         """Write the slide to a Google Slides presentation.
 
         Args:
             presentation_id: The ID of the presentation to write to.
             insertion_index: The index to insert the slide at. If not provided, the slide will be added at the end.
-            slide_id: The ID of the slide to write to. If not provided, a new slide will be created.
         """
-        assert (
-            slide_id is None or insertion_index is None
-        ), "Cannot specify both slide_id and insertion_index"
+        presentation_id = presentation_id or self.presentation_id
 
-        # Store the presentation_id for reference
-        self.presentation_id = presentation_id
+        new_slide = self.create_blank(presentation_id, insertion_index)
+        slide_id = new_slide.objectId
 
-        if slide_id is None:
-            new_slide = self.create_blank(presentation_id, insertion_index)
-            slide_id = new_slide.objectId
-            create_new = True
-        else:
-            create_new = False
         # TODO: this raises an InternalError, need to debug
         # request = [
         #     {
@@ -128,16 +119,14 @@ class Slide(BaseModel):
         # TODO: how about SlideProperties?
         if self.pageElements is not None:
             for element in self.pageElements:
-                if create_new:
-                    element_id = element.create(slide_id, presentation_id)
-                else:
-                    element_id = element.objectId
-
+                element_id = element.create(slide_id, presentation_id)
                 element.update(presentation_id, element_id)
 
+        # TODO: fetch the new object from a Presentation.from_id(presentation_id) query and compare!
         out = copy.deepcopy(self)
         out.objectId = slide_id
         out.presentation_id = presentation_id
+
         return out
 
     def duplicate(self) -> "Slide":
@@ -146,7 +135,7 @@ class Slide(BaseModel):
             self.presentation_id is not None
         ), "self.presentation_id must be set when calling duplicate()"
         # TODO: support duplicating to another presentation
-        new_id = duplicate(self.objectId, self.presentation_id)
+        new_id = duplicate_object(self.objectId, self.presentation_id)
         out = copy.deepcopy(self)
         out.objectId = new_id
         out.presentation_id = self.presentation_id
@@ -157,7 +146,7 @@ class Slide(BaseModel):
             self.presentation_id is not None
         ), "self.presentation_id must be set when calling delete()"
 
-        return delete(self.objectId, self.presentation_id)
+        return delete_object(self.objectId, self.presentation_id)
 
     def move(self, insertion_index: int) -> None:
         # TODO: support moving to another presentation

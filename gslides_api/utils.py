@@ -1,7 +1,7 @@
 from gslides_api.execute import slides_batch_update
 
 
-def duplicate(object_id: str, presentation_id: str) -> str:
+def duplicate_object(object_id: str, presentation_id: str) -> str:
     """Duplicates an object in a Google Slides presentation.
     When duplicating a slide, the duplicate slide will be created immediately following the specified slide.
     When duplicating a page element, the duplicate will be placed on the same page at the same position
@@ -22,7 +22,7 @@ def duplicate(object_id: str, presentation_id: str) -> str:
     return new_object_id
 
 
-def delete(object_id: str, presentation_id: str) -> None:
+def delete_object(object_id: str, presentation_id: str) -> None:
     """Deletes an object in a Google Slides presentation.
 
     Args:

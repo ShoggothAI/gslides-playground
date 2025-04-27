@@ -25,9 +25,10 @@ class Presentation(BaseModel):
     notesMaster: Optional[Dict[str, Any]] = None
 
     @classmethod
-    def create_blank(cls, title: str = "New Presentation") -> str:
+    def create_blank(cls, title: str = "New Presentation") -> "Presentation":
         """Create a blank presentation in Google Slides."""
-        return create_presentation(title)
+        new_id = create_presentation(title)
+        return cls.from_id(new_id)
 
     @classmethod
     def from_json(cls, json_data: Dict[str, Any]) -> "Presentation":

@@ -29,7 +29,14 @@ slide = presentation.slides[7]
 new_slide = slide.duplicate()
 new_slide.delete()
 slide.move(insertion_index=10)
-new_slide_2 = slide.write_copy(insertion_index=8)
+new_slide_2 = slide.write(presentation_id=presentation_id, insertion_index=8)
 new_slide_2.delete()
 slide.move(insertion_index=7)
 print("Slide written successfully")
+
+new_p = Presentation.create_blank("New Presentation")
+print("New presentation created successfully")
+print(f"https://docs.google.com/presentation/d/{new_p.presentationId}/edit")
+
+for slide in presentation.slides:
+    slide.write(presentation_id=new_p.presentationId)
