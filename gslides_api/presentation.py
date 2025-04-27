@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 
 from gslides_api import Size, SizeWithUnit
-from gslides_api.execute import create_presentation
+from gslides_api.execute import create_presentation, get_presentation_json
 from gslides_api.slide import Slide
 
 
@@ -52,7 +52,15 @@ class Presentation(BaseModel):
             }
 
         # Use Pydantic's model_validate to parse the processed JSON
-        return cls.model_validate(processed_data)
+        out = cls.model_validate(processed_data)
+        for s in out.slides:
+            s.presentation_id = out.presentationId
+        return out
+
+    @classmethod
+    def from_id(cls, presentation_id: str) -> "Presentation":
+        presentation_json = get_presentation_json(presentation_id)
+        return cls.from_json(presentation_json)
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""

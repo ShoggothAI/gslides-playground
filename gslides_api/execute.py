@@ -22,6 +22,10 @@ def create_presentation(title: str) -> str:
     return out["presentationId"]
 
 
+def get_presentation_json(presentation_id: str) -> Dict[str, Any]:
+    return creds.slide_service.presentations().get(presentationId=presentation_id).execute()
+
+
 # TODO: test this out and adjust the credentials readme (Drive API scope, anything else?)
 # https://developers.google.com/workspace/slides/api/guides/presentations#python
 def copy_presentation(presentation_id, copy_title):

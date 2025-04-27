@@ -5,6 +5,7 @@ import copy
 from jupyter_client.session import new_id
 from pydantic import BaseModel
 
+
 from gslides_api.domain import PageProperties, GSlidesBaseModel
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
@@ -40,6 +41,7 @@ class Slide(BaseModel):
     )
     slideProperties: SlideProperties
     pageProperties: PageProperties
+    presentation_id: Optional[str] = None  # Store the presentation ID for reference
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
@@ -47,7 +49,14 @@ class Slide(BaseModel):
         result = {
             k: v
             for k, v in self.__dict__.items()
-            if k not in ["objectId", "pageElements", "slideProperties", "pageProperties"]
+            if k
+            not in [
+                "objectId",
+                "pageElements",
+                "slideProperties",
+                "pageProperties",
+                "presentation_id",
+            ]
         }
 
         # Add the standard fields
@@ -61,7 +70,7 @@ class Slide(BaseModel):
 
         return result
 
-    def create_blank(self, presentation_id: str, insertion_index: Optional[int] = None) -> str:
+    def create_blank(self, presentation_id: str, insertion_index: Optional[int] = None) -> "Slide":
         """Create a blank slide in a Google Slides presentation.
 
         Args:
@@ -72,7 +81,12 @@ class Slide(BaseModel):
 
         out = slides_batch_update([{"createSlide": base}], presentation_id)
         new_slide_id = out["replies"][0]["createSlide"]["objectId"]
-        return new_slide_id
+        # To avoid circular imports
+        from gslides_api.presentation import Presentation
+        # If there is a way to just read a single slide, I haven't found it
+        p = Presentation.from_id(presentation_id)
+        new_slide = [s for s in p.slides if s.objectId == new_slide_id][0]
+        return new_slide
 
     def write(
         self,
@@ -91,8 +105,12 @@ class Slide(BaseModel):
             slide_id is None or insertion_index is None
         ), "Cannot specify both slide_id and insertion_index"
 
+        # Store the presentation_id for reference
+        self.presentation_id = presentation_id
+
         if slide_id is None:
-            slide_id = self.create_blank(presentation_id, insertion_index)
+            new_slide = self.create_blank(presentation_id, insertion_index)
+            slide_id = new_slide.objectId
             create_new = True
         else:
             create_new = False
@@ -119,19 +137,34 @@ class Slide(BaseModel):
 
         out = copy.deepcopy(self)
         out.objectId = slide_id
+        out.presentation_id = presentation_id
         return out
 
-    def duplicate(self, presentation_id: str) -> "Slide":
+    def duplicate(self) -> "Slide":
+        # TODO: support duplicating into another presentation, by writing the domain object to a new presentation
+        assert (
+            self.presentation_id is not None
+        ), "self.presentation_id must be set when calling duplicate()"
         # TODO: support duplicating to another presentation
-        new_id = duplicate(self.objectId, presentation_id)
+        new_id = duplicate(self.objectId, self.presentation_id)
         out = copy.deepcopy(self)
         out.objectId = new_id
+        out.presentation_id = self.presentation_id
         return out
 
-    def delete(self, presentation_id: str) -> None:
-        return delete(self.objectId, presentation_id)
+    def delete(self) -> None:
+        assert (
+            self.presentation_id is not None
+        ), "self.presentation_id must be set when calling delete()"
 
-    def move(self, presentation_id: str, insertion_index: int) -> None:
+        return delete(self.objectId, self.presentation_id)
+
+    def move(self, insertion_index: int) -> None:
+        # TODO: support moving to another presentation
+        assert self.presentation_id is not None, (
+            "For now, moving is only supported within the same presentation, as in the Google Slides API"
+            "so self.presentation_id must be set when calling move()"
+        )
         request = [
             {
                 "updateSlidesPosition": {
@@ -140,4 +173,4 @@ class Slide(BaseModel):
                 }
             }
         ]
-        slides_batch_update(request, presentation_id)
+        slides_batch_update(request, self.presentation_id)
