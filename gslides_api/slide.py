@@ -4,7 +4,6 @@ import logging
 from jupyter_client.session import new_id
 from pydantic import BaseModel
 
-from gslides_api.create import element_to_create_request, element_to_update_request
 from gslides_api.domain import PageProperties, GSlidesBaseModel
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
@@ -33,7 +32,7 @@ class SlideProperties(GSlidesBaseModel):
 class Slide(BaseModel):
     """Represents a slide in a presentation."""
 
-    objectId: str
+    objectId: Optional[str] = None
     pageElements: Optional[List[PageElement]] = (
         None  # Make optional to preserve original JSON exactly
     )
@@ -60,39 +59,60 @@ class Slide(BaseModel):
 
         return result
 
-    def write(self, presentation_id: str, insertion_index: Optional[int] = None) -> None:
+    def create_blank(self, presentation_id: str, insertion_index: Optional[int] = None) -> str:
+        """Create a blank slide in a Google Slides presentation.
+
+        Args:
+            presentation_id: The ID of the presentation to create the slide in.
+            insertion_index: The index to insert the slide at. If not provided, the slide will be added at the end.
+        """
+        base = {} if insertion_index is None else {"insertionIndex": insertion_index}
+
+        out = slides_batch_update([{"createSlide": base}], presentation_id)
+        new_slide_id = out["replies"][0]["createSlide"]["objectId"]
+        return new_slide_id
+
+    def write(
+        self,
+        presentation_id: str,
+        insertion_index: Optional[int] = None,
+        slide_id: Optional[str] = None,
+    ) -> None:
         """Write the slide to a Google Slides presentation.
 
         Args:
             presentation_id: The ID of the presentation to write to.
+            insertion_index: The index to insert the slide at. If not provided, the slide will be added at the end.
+            slide_id: The ID of the slide to write to. If not provided, a new slide will be created.
         """
+        assert (
+            slide_id is None or insertion_index is None
+        ), "Cannot specify both slide_id and insertion_index"
 
-        base = {} if insertion_index is None else {"insertionIndex": insertion_index}
-
-        return_values = []
-        out = slides_batch_update([{"createSlide": base}], presentation_id)
-        new_slide_id = out["replies"][0]["createSlide"]["objectId"]
-        return_values.append(out)
-        requests = []
-        # requests.append(
+        if slide_id is None:
+            slide_id = self.create_blank(presentation_id, insertion_index)
+            create_new = True
+        else:
+            create_new = False
+        # TODO: this raises an InternalError, need to debug
+        # request = [
         #     {
         #         "updatePageProperties": {
-        #             "objectId": self.objectId,
-        #             "properties": self.pageProperties.to_api_format(),
+        #             "objectId": slide_id,
+        #             "pageProperties": self.pageProperties.to_api_format(),
+        #             "fields": "*",
         #         }
         #     }
-        # )
+        # ]
+        # slides_batch_update(request, presentation_id)
         # TODO: how about SlideProperties?
         if self.pageElements is not None:
             for element in self.pageElements:
-                create_request = element_to_create_request(element, new_slide_id)
-                out = slides_batch_update(create_request, presentation_id)
-                return_values.append(out)
-                if out is not None and "createShape" in out["replies"][0]:
-                    new_element_id = out["replies"][0]["createShape"]["objectId"]
-                    update_request = element_to_update_request(element, new_element_id)
-                    if update_request is not None and len(update_request):
-                        out = slides_batch_update(update_request, presentation_id)
-                        return_values.append(out)
+                if create_new:
+                    element_id = element.create(slide_id, presentation_id)
+                else:
+                    element_id = element.objectId
+
+                element.update(presentation_id, element_id)
 
         print("Slide created successfully!")

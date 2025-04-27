@@ -1,9 +1,19 @@
 from typing import List, Dict, Optional, Any, Union
 from enum import Enum
+import json
 from pydantic import BaseModel, Field, model_validator
 from pydantic.json import pydantic_encoder
 
 # from gslides_api.notes import NotesPage
+
+
+class EnumEncoder(json.JSONEncoder):
+    """JSON encoder that handles Enum types."""
+
+    def default(self, obj):
+        if isinstance(obj, Enum):
+            return obj.value
+        return super().default(obj)
 
 
 class GSlidesBaseModel(BaseModel):
@@ -169,10 +179,67 @@ class RgbColor(GSlidesBaseModel):
     blue: Optional[float] = None
 
 
+class ThemeColorType(Enum):
+    """Enumeration of possible theme color types."""
+
+    THEME_COLOR_TYPE_UNSPECIFIED = "THEME_COLOR_TYPE_UNSPECIFIED"
+    DARK1 = "DARK1"
+    LIGHT1 = "LIGHT1"
+    DARK2 = "DARK2"
+    LIGHT2 = "LIGHT2"
+    ACCENT1 = "ACCENT1"
+    ACCENT2 = "ACCENT2"
+    ACCENT3 = "ACCENT3"
+    ACCENT4 = "ACCENT4"
+    ACCENT5 = "ACCENT5"
+    ACCENT6 = "ACCENT6"
+    HYPERLINK = "HYPERLINK"
+    FOLLOWED_HYPERLINK = "FOLLOWED_HYPERLINK"
+    TEXT1 = "TEXT1"
+    BACKGROUND1 = "BACKGROUND1"
+    TEXT2 = "TEXT2"
+    BACKGROUND2 = "BACKGROUND2"
+
+
 class Color(GSlidesBaseModel):
     """Represents a color with RGB values."""
 
     rgbColor: Optional[RgbColor] = None
+    themeColor: Optional[ThemeColorType] = None
+
+    @classmethod
+    def from_api_format(cls, data: Dict[str, Any]) -> "Color":
+        """Create a Color from API format."""
+        if "rgbColor" in data:
+            rgb_color = RgbColor(**data["rgbColor"]) if isinstance(data["rgbColor"], dict) else data["rgbColor"]
+            theme_color = None
+            if "themeColor" in data:
+                try:
+                    theme_color = ThemeColorType(data["themeColor"])
+                except (ValueError, TypeError):
+                    # Keep as is if conversion fails
+                    theme_color = data["themeColor"]
+            return cls(rgbColor=rgb_color, themeColor=theme_color)
+        elif "themeColor" in data:
+            try:
+                theme_color = ThemeColorType(data["themeColor"])
+            except (ValueError, TypeError):
+                # Keep as is if conversion fails
+                theme_color = data["themeColor"]
+            return cls(themeColor=theme_color)
+        return cls()
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {}
+
+        if self.rgbColor is not None:
+            result["rgbColor"] = self.rgbColor.to_api_format()
+
+        if self.themeColor is not None:
+            result["themeColor"] = self.themeColor.value
+
+        return result
 
 
 class SolidFill(GSlidesBaseModel):
@@ -180,6 +247,33 @@ class SolidFill(GSlidesBaseModel):
 
     color: Optional[Color] = None
     alpha: Optional[float] = None
+
+    @classmethod
+    def from_api_format(cls, data: Dict[str, Any]) -> "SolidFill":
+        """Create a SolidFill from API format."""
+        color = None
+        if "color" in data and isinstance(data["color"], dict):
+            if "rgbColor" in data["color"] or "themeColor" in data["color"]:
+                color = Color.from_api_format(data["color"])
+            else:
+                color = Color(**data["color"])
+
+        return cls(
+            color=color,
+            alpha=data.get("alpha")
+        )
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {}
+
+        if self.color is not None:
+            result["color"] = self.color.to_api_format()
+
+        if self.alpha is not None:
+            result["alpha"] = self.alpha
+
+        return result
 
 
 class ShapeBackgroundFill(GSlidesBaseModel):
@@ -194,6 +288,23 @@ class OutlineFill(GSlidesBaseModel):
 
     solidFill: Optional[SolidFill] = None
 
+    @classmethod
+    def from_api_format(cls, data: Dict[str, Any]) -> "OutlineFill":
+        """Create an OutlineFill from API format."""
+        if "solidFill" in data and isinstance(data["solidFill"], dict):
+            solid_fill = SolidFill(**data["solidFill"])
+            return cls(solidFill=solid_fill)
+        return cls()
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {}
+
+        if self.solidFill is not None:
+            result["solidFill"] = self.solidFill.to_api_format()
+
+        return result
+
 
 class Weight(GSlidesBaseModel):
     """Represents the weight of an outline."""
@@ -202,12 +313,40 @@ class Weight(GSlidesBaseModel):
     unit: Optional[str] = None
 
 
+class DashStyle(Enum):
+    """Enumeration of possible dash styles for outlines."""
+
+    DASH_STYLE_UNSPECIFIED = "DASH_STYLE_UNSPECIFIED"
+    SOLID = "SOLID"
+    DOT = "DOT"
+    DASH = "DASH"
+    DASH_DOT = "DASH_DOT"
+    LONG_DASH = "LONG_DASH"
+    LONG_DASH_DOT = "LONG_DASH_DOT"
+
+
 class Outline(GSlidesBaseModel):
     """Represents an outline of a shape."""
 
     outlineFill: Optional[OutlineFill] = None
     weight: Optional[Weight] = None
     propertyState: Optional[str] = None
+    dashStyle: Optional[DashStyle] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = super().model_dump(exclude={"outlineFill", "weight", "dashStyle"}, exclude_none=True)
+
+        if self.outlineFill is not None:
+            result["outlineFill"] = self.outlineFill.to_api_format()
+
+        if self.weight is not None:
+            result["weight"] = self.weight.to_api_format() if hasattr(self.weight, "to_api_format") else self.weight
+
+        if self.dashStyle is not None:
+            result["dashStyle"] = self.dashStyle.value
+
+        return result
 
 
 class ShadowTransform(GSlidesBaseModel):
@@ -225,6 +364,28 @@ class BlurRadius(GSlidesBaseModel):
     unit: Optional[str] = None
 
 
+class ShadowType(Enum):
+    """Enumeration of possible shadow types."""
+
+    SHADOW_TYPE_UNSPECIFIED = "SHADOW_TYPE_UNSPECIFIED"
+    OUTER = "OUTER"
+
+
+class RectanglePosition(Enum):
+    """Enumeration of possible rectangle positions."""
+
+    RECTANGLE_POSITION_UNSPECIFIED = "RECTANGLE_POSITION_UNSPECIFIED"
+    TOP_LEFT = "TOP_LEFT"
+    TOP_CENTER = "TOP_CENTER"
+    TOP_RIGHT = "TOP_RIGHT"
+    LEFT_CENTER = "LEFT_CENTER"
+    CENTER = "CENTER"
+    RIGHT_CENTER = "RIGHT_CENTER"
+    BOTTOM_LEFT = "BOTTOM_LEFT"
+    BOTTOM_CENTER = "BOTTOM_CENTER"
+    BOTTOM_RIGHT = "BOTTOM_RIGHT"
+
+
 class Shadow(GSlidesBaseModel):
     """Represents a shadow."""
 
@@ -234,6 +395,29 @@ class Shadow(GSlidesBaseModel):
     alpha: Optional[float] = None
     rotateWithShape: Optional[bool] = None
     propertyState: Optional[str] = None
+    type: Optional[ShadowType] = None
+    alignment: Optional[RectanglePosition] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = super().model_dump(exclude={"transform", "blurRadius", "color", "type", "alignment"}, exclude_none=True)
+
+        if self.transform is not None:
+            result["transform"] = self.transform.to_api_format()
+
+        if self.blurRadius is not None:
+            result["blurRadius"] = self.blurRadius.to_api_format() if hasattr(self.blurRadius, "to_api_format") else self.blurRadius
+
+        if self.color is not None:
+            result["color"] = self.color.to_api_format()
+
+        if self.type is not None:
+            result["type"] = self.type.value
+
+        if self.alignment is not None:
+            result["alignment"] = self.alignment.value
+
+        return result
 
 
 class ShapeProperties(GSlidesBaseModel):
@@ -305,12 +489,139 @@ class Table(GSlidesBaseModel):
     verticalBorderRows: Optional[List[Dict[str, Any]]] = None
 
 
+class CropProperties(GSlidesBaseModel):
+    """Represents crop properties of an image."""
+
+    leftOffset: Optional[float] = None
+    rightOffset: Optional[float] = None
+    topOffset: Optional[float] = None
+    bottomOffset: Optional[float] = None
+    angle: Optional[float] = None
+
+
+class ColorStop(GSlidesBaseModel):
+    """Represents a color and position in a gradient."""
+
+    color: Optional[Color] = None
+    alpha: Optional[float] = 1.0
+    position: Optional[float] = None
+
+
+class RecolorName(Enum):
+    """Enumeration of possible recolor effect names."""
+
+    NONE = "NONE"
+    LIGHT1 = "LIGHT1"
+    LIGHT2 = "LIGHT2"
+    LIGHT3 = "LIGHT3"
+    LIGHT4 = "LIGHT4"
+    LIGHT5 = "LIGHT5"
+    LIGHT6 = "LIGHT6"
+    LIGHT7 = "LIGHT7"
+    LIGHT8 = "LIGHT8"
+    LIGHT9 = "LIGHT9"
+    LIGHT10 = "LIGHT10"
+    DARK1 = "DARK1"
+    DARK2 = "DARK2"
+    DARK3 = "DARK3"
+    DARK4 = "DARK4"
+    DARK5 = "DARK5"
+    DARK6 = "DARK6"
+    DARK7 = "DARK7"
+    DARK8 = "DARK8"
+    DARK9 = "DARK9"
+    DARK10 = "DARK10"
+    GRAYSCALE = "GRAYSCALE"
+    NEGATIVE = "NEGATIVE"
+    SEPIA = "SEPIA"
+    CUSTOM = "CUSTOM"
+
+
+class Recolor(GSlidesBaseModel):
+    """Represents a recolor effect applied to an image."""
+
+    recolorStops: Optional[List[ColorStop]] = None
+    name: Optional[RecolorName] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {}
+
+        if self.recolorStops is not None:
+            result["recolorStops"] = [stop.to_api_format() for stop in self.recolorStops]
+
+        if self.name is not None:
+            result["name"] = self.name.value
+
+        return result
+
+
+class ImageProperties(GSlidesBaseModel):
+    """Represents properties of an image."""
+
+    cropProperties: Optional[CropProperties] = None
+    transparency: Optional[float] = None
+    brightness: Optional[float] = None
+    contrast: Optional[float] = None
+    recolor: Optional[Recolor] = None
+    outline: Optional[Outline] = None
+    shadow: Optional[Shadow] = None
+    link: Optional[Dict[str, Any]] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = super().model_dump(exclude={"cropProperties", "recolor", "outline", "shadow"}, exclude_none=True)
+
+        if self.cropProperties is not None:
+            result["cropProperties"] = self.cropProperties.to_api_format()
+
+        if self.recolor is not None:
+            result["recolor"] = self.recolor.to_api_format()
+
+        if self.outline is not None:
+            result["outline"] = self.outline.to_api_format()
+
+        if self.shadow is not None:
+            result["shadow"] = self.shadow.to_api_format()
+
+        return result
+
+
 class Image(GSlidesBaseModel):
     """Represents an image in a slide."""
 
     contentUrl: Optional[str] = None
-    imageProperties: Optional[Dict[str, Any]] = None
+    imageProperties: Optional[Union[Dict[str, Any], ImageProperties]] = None
     sourceUrl: Optional[str] = None
+
+    @model_validator(mode="after")
+    def convert_image_properties(self) -> "Image":
+        """Convert imageProperties to ImageProperties if it's a dict."""
+        if self.imageProperties is not None and not isinstance(self.imageProperties, ImageProperties):
+            # Track the original type
+            if isinstance(self.imageProperties, dict):
+                self._original_properties_type = "dict"
+            else:
+                self._original_properties_type = type(self.imageProperties).__name__
+
+            try:
+                self.imageProperties = ImageProperties.model_validate(self.imageProperties)
+            except (ValueError, TypeError):
+                # Keep as is if conversion fails
+                pass
+        return self
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = super().model_dump(exclude={"imageProperties"}, exclude_none=True)
+
+        if self.imageProperties is not None:
+            if isinstance(self.imageProperties, ImageProperties):
+                result["imageProperties"] = self.imageProperties.to_api_format()
+            else:
+                result["imageProperties"] = self.imageProperties
+
+        return result
 
 
 class VideoSourceType(Enum):
