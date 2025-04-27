@@ -4,6 +4,7 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 
 from gslides_api import Size, SizeWithUnit
+from gslides_api.execute import create_presentation
 from gslides_api.slide import Slide
 
 
@@ -22,6 +23,11 @@ class Presentation(BaseModel):
     masters: Optional[List[Dict[str, Any]]] = None
     layouts: Optional[List[Dict[str, Any]]] = None
     notesMaster: Optional[Dict[str, Any]] = None
+
+    @classmethod
+    def create_blank(cls, title: str = "New Presentation") -> str:
+        """Create a blank presentation in Google Slides."""
+        return create_presentation(title)
 
     @classmethod
     def from_json(cls, json_data: Dict[str, Any]) -> "Presentation":

@@ -180,8 +180,6 @@ class PageElement(GSlidesBaseModel):
         elif self.image is not None:
             image_properties = self.image.imageProperties.to_api_format()
             # propertyState is a readonly property, API will barf if we try to set it
-            image_properties["outline"].pop("propertyState")
-            image_properties["shadow"].pop("propertyState")
             requests = [
                 {
                     "updateImageProperties": {

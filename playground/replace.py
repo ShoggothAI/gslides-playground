@@ -46,5 +46,6 @@ print(
 )
 
 slide = presentation.slides[7]
+slide.duplicate(presentation_id=presentation_id)
 slide.write(presentation_id=presentation_id, insertion_index=8)
 print("Slide written successfully")

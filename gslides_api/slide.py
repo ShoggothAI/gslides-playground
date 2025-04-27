@@ -8,6 +8,7 @@ from gslides_api.domain import PageProperties, GSlidesBaseModel
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
 from gslides_api.notes import NotesPage
+from gslides_api.utils import duplicate
 
 logger = logging.getLogger(__name__)
 
@@ -116,3 +117,6 @@ class Slide(BaseModel):
                 element.update(presentation_id, element_id)
 
         print("Slide created successfully!")
+
+    def duplicate(self, presentation_id: str) -> str:
+        return duplicate(self.objectId, presentation_id)
