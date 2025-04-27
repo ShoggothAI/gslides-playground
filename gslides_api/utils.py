@@ -20,3 +20,14 @@ def duplicate(object_id: str, presentation_id: str) -> str:
     out = slides_batch_update([request], presentation_id)
     new_object_id = out["replies"][0]["duplicateObject"]["objectId"]
     return new_object_id
+
+
+def delete(object_id: str, presentation_id: str) -> None:
+    """Deletes an object in a Google Slides presentation.
+
+    Args:
+        object_id: The ID of the object to delete.
+        presentation_id: The ID of the presentation containing the object.
+    """
+    request = {"deleteObject": {"objectId": object_id}}
+    slides_batch_update([request], presentation_id)

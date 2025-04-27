@@ -1,5 +1,6 @@
 from typing import Optional, List, Dict, Any
 import logging
+import copy
 
 from jupyter_client.session import new_id
 from pydantic import BaseModel
@@ -8,7 +9,7 @@ from gslides_api.domain import PageProperties, GSlidesBaseModel
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
 from gslides_api.notes import NotesPage
-from gslides_api.utils import duplicate
+from gslides_api.utils import duplicate, delete
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +79,7 @@ class Slide(BaseModel):
         presentation_id: str,
         insertion_index: Optional[int] = None,
         slide_id: Optional[str] = None,
-    ) -> None:
+    ) -> "Slide":
         """Write the slide to a Google Slides presentation.
 
         Args:
@@ -116,7 +117,27 @@ class Slide(BaseModel):
 
                 element.update(presentation_id, element_id)
 
-        print("Slide created successfully!")
+        out = copy.deepcopy(self)
+        out.objectId = slide_id
+        return out
 
-    def duplicate(self, presentation_id: str) -> str:
-        return duplicate(self.objectId, presentation_id)
+    def duplicate(self, presentation_id: str) -> "Slide":
+        # TODO: support duplicating to another presentation
+        new_id = duplicate(self.objectId, presentation_id)
+        out = copy.deepcopy(self)
+        out.objectId = new_id
+        return out
+
+    def delete(self, presentation_id: str) -> None:
+        return delete(self.objectId, presentation_id)
+
+    def move(self, presentation_id: str, insertion_index: int) -> None:
+        request = [
+            {
+                "updateSlidesPosition": {
+                    "slideObjectIds": [self.objectId],
+                    "insertionIndex": insertion_index,
+                }
+            }
+        ]
+        slides_batch_update(request, presentation_id)

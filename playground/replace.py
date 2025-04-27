@@ -46,6 +46,9 @@ print(
 )
 
 slide = presentation.slides[7]
-slide.duplicate(presentation_id=presentation_id)
-slide.write(presentation_id=presentation_id, insertion_index=8)
+new_slide = slide.duplicate(presentation_id=presentation_id)
+new_slide.delete(presentation_id=presentation_id)
+slide.move(presentation_id=presentation_id, insertion_index=10)
+new_slide_2 = slide.write(presentation_id=presentation_id, insertion_index=8)
+new_slide_2.delete(presentation_id=presentation_id)
 print("Slide written successfully")
