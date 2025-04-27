@@ -5,10 +5,29 @@ from jupyter_client.session import new_id
 from pydantic import BaseModel
 
 from gslides_api.create import element_to_create_request, element_to_update_request
-from gslides_api.domain import PageElement, SlideProperties, PageProperties
+from gslides_api.domain import PageProperties, GSlidesBaseModel
+from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
+from gslides_api.notes import NotesPage
 
 logger = logging.getLogger(__name__)
+
+
+class SlideProperties(GSlidesBaseModel):
+    """Represents properties of a slide."""
+
+    layoutObjectId: str
+    masterObjectId: str
+    notesPage: Optional[NotesPage] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {"layoutObjectId": self.layoutObjectId, "masterObjectId": self.masterObjectId}
+
+        if self.notesPage is not None:
+            result["notesPage"] = self.notesPage.to_api_format()
+
+        return result
 
 
 class Slide(BaseModel):

@@ -3,6 +3,8 @@ from enum import Enum
 from pydantic import BaseModel, Field, model_validator
 from pydantic.json import pydantic_encoder
 
+# from gslides_api.notes import NotesPage
+
 
 class GSlidesBaseModel(BaseModel):
     """Base class for all models in the Google Slides API."""
@@ -380,46 +382,6 @@ class Video(GSlidesBaseModel):
         return result
 
 
-class PageElement(GSlidesBaseModel):
-    """Represents an element on a slide."""
-
-    objectId: str
-    size: Size
-    transform: Transform
-    shape: Optional[Shape] = None
-    table: Optional[Table] = None
-    image: Optional[Image] = None
-    video: Optional[Video] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        # Start with a copy of any extra fields
-        result = {
-            k: v
-            for k, v in self.__dict__.items()
-            if k not in ["objectId", "size", "transform", "shape", "table", "image", "video"]
-        }
-
-        # Add the standard fields
-        result["objectId"] = self.objectId
-        result["size"] = self.size.to_api_format()
-        result["transform"] = self.transform.to_api_format()
-
-        if self.shape is not None:
-            result["shape"] = self.shape.to_api_format()
-
-        if self.table is not None:
-            result["table"] = self.table.to_api_format()
-
-        if self.image is not None:
-            result["image"] = self.image.to_api_format()
-
-        if self.video is not None:
-            result["video"] = self.video.to_api_format()
-
-        return result
-
-
 class PageProperties(GSlidesBaseModel):
     """Represents properties of a page."""
 
@@ -430,44 +392,3 @@ class NotesProperties(GSlidesBaseModel):
     """Represents properties of notes."""
 
     speakerNotesObjectId: str
-
-
-class NotesPage(GSlidesBaseModel):
-    """Represents a notes page associated with a slide."""
-
-    objectId: str
-    pageType: str
-    pageElements: List[PageElement]
-    pageProperties: PageProperties
-    notesProperties: Optional[NotesProperties] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {
-            "objectId": self.objectId,
-            "pageType": self.pageType,
-            "pageElements": [element.to_api_format() for element in self.pageElements],
-            "pageProperties": self.pageProperties.to_api_format(),
-        }
-
-        if self.notesProperties is not None:
-            result["notesProperties"] = self.notesProperties.to_api_format()
-
-        return result
-
-
-class SlideProperties(GSlidesBaseModel):
-    """Represents properties of a slide."""
-
-    layoutObjectId: str
-    masterObjectId: str
-    notesPage: Optional[NotesPage] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {"layoutObjectId": self.layoutObjectId, "masterObjectId": self.masterObjectId}
-
-        if self.notesPage is not None:
-            result["notesPage"] = self.notesPage.to_api_format()
-
-        return result

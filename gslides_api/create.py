@@ -1,6 +1,7 @@
 from typing import Dict, Any, List, Optional
 
-from gslides_api.domain import PageElement, ShapeType
+from gslides_api.domain import ShapeType
+from gslides_api.element import PageElement
 
 
 def element_to_create_request(e: PageElement, parent_id: str) -> List[Dict[str, Any]]:
