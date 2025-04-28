@@ -21,15 +21,15 @@ from gslides_api.utils import duplicate_object, delete_object, dict_to_dot_separ
 logger = logging.getLogger(__name__)
 
 
-class SlideProperties(GSlidesBaseModel):
-    """Represents properties of a slide."""
+# class PageProperties(GSlidesBaseModel):
+#     """Represents properties of a slide."""
+#
+#     layoutObjectId: str
+#     masterObjectId: str
+#     notesPage: Optional[NotesPage] = None
 
-    layoutObjectId: str
-    masterObjectId: str
-    notesPage: Optional[NotesPage] = None
 
-
-class Slide(GSlidesBaseModel):
+class Page(GSlidesBaseModel):
     """Represents a slide in a presentation."""
 
     objectId: Optional[str] = None
@@ -41,7 +41,7 @@ class Slide(GSlidesBaseModel):
     pageType: Optional[PageType] = None
 
     # Union field properties - only one of these should be set
-    slideProperties: Optional[SlideProperties] = None
+    slideProperties: Optional[PageProperties] = None
     layoutProperties: Optional[LayoutProperties] = None
     notesProperties: Optional[NotesProperties] = None
     masterProperties: Optional[MasterProperties] = None
@@ -54,7 +54,7 @@ class Slide(GSlidesBaseModel):
         cls,
         presentation_id: str,
         insertion_index: Optional[int] = None,
-    ) -> "Slide":
+    ) -> "Page":
         """Create a blank slide in a Google Slides presentation.
 
         Args:
@@ -69,7 +69,7 @@ class Slide(GSlidesBaseModel):
         return cls.from_ids(presentation_id, new_slide_id)
 
     @classmethod
-    def from_ids(cls, presentation_id: str, slide_id: str) -> "Slide":
+    def from_ids(cls, presentation_id: str, slide_id: str) -> "Page":
         # To avoid circular imports
         from gslides_api.presentation import Presentation
 
@@ -82,7 +82,7 @@ class Slide(GSlidesBaseModel):
         self,
         insertion_index: Optional[int] = None,
         presentation_id: Optional[str] = None,
-    ) -> "Slide":
+    ) -> "Page":
         """Write the slide to a Google Slides presentation.
 
         Args:
@@ -114,7 +114,7 @@ class Slide(GSlidesBaseModel):
 
         return self.from_ids(presentation_id, slide_id)
 
-    def duplicate(self) -> "Slide":
+    def duplicate(self) -> "Page":
         """
         Duplicates the slide in the same presentation.
 
@@ -149,9 +149,3 @@ class Slide(GSlidesBaseModel):
             }
         ]
         slides_batch_update(request, self.presentation_id)
-
-
-class Layout(Slide):
-    """Represents a layout in a presentation."""
-
-    pass

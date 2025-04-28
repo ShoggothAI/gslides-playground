@@ -1,14 +1,14 @@
 import pytest
-from gslides_api.slide import Slide, SlideProperties
+from gslides_api.page import Page, PageProperties
 from gslides_api.domain import PageProperties
 
 
 def test_presentation_id_not_in_api_format():
     """Test that presentation_id is not included in the API format."""
     # Create a minimal slide
-    slide = Slide(
+    slide = Page(
         objectId="test-slide-id",
-        slideProperties=SlideProperties(
+        slideProperties=PageProperties(
             layoutObjectId="test-layout-id", masterObjectId="test-master-id"
         ),
         pageProperties=PageProperties(pageBackgroundFill={}),
@@ -30,9 +30,9 @@ def test_presentation_id_not_in_api_format():
 def test_write_sets_presentation_id(monkeypatch):
     """Test that the write_copy method sets the presentation_id."""
     # Create a minimal slide
-    slide = Slide(
+    slide = Page(
         objectId="test-slide-id",
-        slideProperties=SlideProperties(
+        slideProperties=PageProperties(
             layoutObjectId="test-layout-id", masterObjectId="test-master-id"
         ),
         pageProperties=PageProperties(pageBackgroundFill={}),
@@ -41,9 +41,9 @@ def test_write_sets_presentation_id(monkeypatch):
     # Mock the create_blank method to avoid API calls
     def mock_create_blank(self, presentation_id, insertion_index=None):
         # Return a Slide object instead of just a string
-        mock_slide = Slide(
+        mock_slide = Page(
             objectId="new-slide-id",
-            slideProperties=SlideProperties(
+            slideProperties=PageProperties(
                 layoutObjectId="test-layout-id", masterObjectId="test-master-id"
             ),
             pageProperties=PageProperties(pageBackgroundFill={}),
@@ -56,9 +56,9 @@ def test_write_sets_presentation_id(monkeypatch):
 
     # Mock the from_ids method to avoid API calls
     def mock_from_ids(cls, presentation_id, slide_id):
-        return Slide(
+        return Page(
             objectId=slide_id,
-            slideProperties=SlideProperties(
+            slideProperties=PageProperties(
                 layoutObjectId="test-layout-id", masterObjectId="test-master-id"
             ),
             pageProperties=PageProperties(pageBackgroundFill={}),
@@ -68,8 +68,8 @@ def test_write_sets_presentation_id(monkeypatch):
     # Apply the monkeypatches
     import gslides_api.slide
 
-    monkeypatch.setattr(Slide, "create_blank", mock_create_blank)
-    monkeypatch.setattr(Slide, "from_ids", classmethod(mock_from_ids))
+    monkeypatch.setattr(Page, "create_blank", mock_create_blank)
+    monkeypatch.setattr(Page, "from_ids", classmethod(mock_from_ids))
     monkeypatch.setattr(gslides_api.slide, "slides_batch_update", mock_slides_batch_update)
 
     # Call write_copy with a presentation_id
@@ -82,9 +82,9 @@ def test_write_sets_presentation_id(monkeypatch):
 def test_duplicate_preserves_presentation_id(monkeypatch):
     """Test that the duplicate method preserves the presentation_id."""
     # Create a minimal slide
-    slide = Slide(
+    slide = Page(
         objectId="test-slide-id",
-        slideProperties=SlideProperties(
+        slideProperties=PageProperties(
             layoutObjectId="test-layout-id", masterObjectId="test-master-id"
         ),
         pageProperties=PageProperties(pageBackgroundFill={}),
@@ -97,9 +97,9 @@ def test_duplicate_preserves_presentation_id(monkeypatch):
 
     # Mock the from_ids method to avoid API calls
     def mock_from_ids(cls, presentation_id, slide_id):
-        return Slide(
+        return Page(
             objectId=slide_id,
-            slideProperties=SlideProperties(
+            slideProperties=PageProperties(
                 layoutObjectId="test-layout-id", masterObjectId="test-master-id"
             ),
             pageProperties=PageProperties(pageBackgroundFill={}),
@@ -110,7 +110,7 @@ def test_duplicate_preserves_presentation_id(monkeypatch):
     import gslides_api.slide
 
     monkeypatch.setattr(gslides_api.slide, "duplicate_object", mock_duplicate_object)
-    monkeypatch.setattr(Slide, "from_ids", classmethod(mock_from_ids))
+    monkeypatch.setattr(Page, "from_ids", classmethod(mock_from_ids))
 
     # Call duplicate
     result = slide.duplicate()

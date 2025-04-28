@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 
 from gslides_api import Size, Dimension
 from gslides_api.execute import create_presentation, get_presentation_json
-from gslides_api.slide import Slide
+from gslides_api.page import Page
 from gslides_api.domain import GSlidesBaseModel
 
 logger = logging.getLogger(__name__)
@@ -15,13 +15,13 @@ class Presentation(GSlidesBaseModel):
 
     presentationId: Optional[str]
     pageSize: Size
-    slides: List[Slide]
+    slides: List[Page]
     title: Optional[str] = None
     locale: Optional[str] = None
     revisionId: Optional[str] = None
-    masters: Optional[List[Dict[str, Any]]] = None
-    layouts: Optional[List[Slide]] = None
-    notesMaster: Optional[Slide] = None
+    masters: Optional[List[Page]] = None
+    layouts: Optional[List[Page]] = None
+    notesMaster: Optional[Page] = None
 
     @classmethod
     def create_blank(cls, title: str = "New Presentation") -> "Presentation":
@@ -77,7 +77,7 @@ class Presentation(GSlidesBaseModel):
         re_p = Presentation.from_id(self.presentationId)
         self.__dict__ = re_p.__dict__
 
-    def slide_from_id(self, slide_id: str) -> Optional[Slide]:
+    def slide_from_id(self, slide_id: str) -> Optional[Page]:
         match = [s for s in self.slides if s.objectId == slide_id]
         if len(match) == 0:
             logger.error(

@@ -38,5 +38,5 @@ from .domain import (
     ThemeColorPair,
 )
 from .presentation import Presentation
-from .slide import Slide, Layout
+from .page import Page
 from .credentials import initialize_credentials
