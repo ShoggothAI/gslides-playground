@@ -1,8 +1,26 @@
 from typing import Optional, Dict, Any, List
+from enum import Enum
 
 from gslides_api.domain import GSlidesBaseModel, Transform, Shape, Table, Image, Size, Video
 from gslides_api.execute import slides_batch_update
 from gslides_api.utils import dict_to_dot_separated_field_list
+
+
+class ElementKind(Enum):
+    """Enumeration of possible page element kinds based on the Google Slides API.
+
+    Reference: https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations.pages#pageelement
+    """
+
+    GROUP = "elementGroup"
+    SHAPE = "shape"
+    IMAGE = "image"
+    VIDEO = "video"
+    LINE = "line"
+    TABLE = "table"
+    WORD_ART = "wordArt"
+    SHEETS_CHART = "sheetsChart"
+    SPEAKER_SPOTLIGHT = "speakerSpotlight"
 
 
 class PageElement(GSlidesBaseModel):

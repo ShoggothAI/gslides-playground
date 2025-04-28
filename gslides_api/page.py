@@ -129,8 +129,9 @@ class Page(GSlidesBaseModel):
         )
         slide_id = new_slide.objectId
 
+        # Set the page properties
         try:
-            # TODO: this raises an InternalError, need to debug
+            # TODO: this raises an InternalError sometimes, need to debug
             page_properties = self.pageProperties.to_api_format()
             request = [
                 {
@@ -145,8 +146,11 @@ class Page(GSlidesBaseModel):
         except Exception as e:
             logger.error(f"Error writing page properties: {e}")
 
+        # Set the slid properties that hadn't been set when creating the slide
         slide_properties = self.slideProperties.to_api_format()
+        # Not clear with which call this can be set, but updateSlideProperties rejects it
         slide_properties.pop("masterObjectId", None)
+        # This has already been set when creating the slide
         slide_properties.pop("layoutObjectId", None)
         request = [
             {
@@ -160,11 +164,24 @@ class Page(GSlidesBaseModel):
         slides_batch_update(request, presentation_id)
 
         if self.pageElements is not None:
+
             for element in self.pageElements:
-                element_id = element.create(slide_id, presentation_id)
+                element_id = element.create_copy(slide_id, presentation_id)
                 element.update(presentation_id, element_id)
 
         return self.from_ids(presentation_id, slide_id)
+
+    @property
+    def select_elements(self, kind: str = None):
+        if self.pageElements is None:
+            return []
+        return [e for e in self.pageElements if getattr(e, kind.value) is not None]
+
+    @property
+    def image_elements(self):
+        if self.pageElements is None:
+            return []
+        return [e for e in self.pageElements if e.image is not None]
 
     def duplicate(self) -> "Page":
         """

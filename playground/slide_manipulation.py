@@ -7,7 +7,7 @@ initialize_credentials(credential_location)
 
 presentation = Presentation.from_id(presentation_id)
 
-slide = presentation.slides[11]
+slide = presentation.slides[7]
 new_slide_2 = slide.write_copy(insertion_index=8)
 new_slide_2.delete()
 new_slide = slide.duplicate()
