@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 
 from gslides_api import Size, Dimension
 from gslides_api.execute import create_presentation, get_presentation_json
-from gslides_api.slide import Slide
+from gslides_api.slide import Slide, Layout
 from gslides_api.domain import GSlidesBaseModel
 
 logger = logging.getLogger(__name__)
@@ -13,9 +13,6 @@ logger = logging.getLogger(__name__)
 class Presentation(GSlidesBaseModel):
     """Represents a Google Slides presentation."""
 
-    # Use Dict[str, Any] to capture all fields from the original JSON
-    model_config = {"extra": "allow"}
-
     presentationId: Optional[str]
     pageSize: Size
     slides: List[Slide]
@@ -23,7 +20,7 @@ class Presentation(GSlidesBaseModel):
     locale: Optional[str] = None
     revisionId: Optional[str] = None
     masters: Optional[List[Dict[str, Any]]] = None
-    layouts: Optional[List[Dict[str, Any]]] = None
+    layouts: Optional[List[Layout]] = None
     notesMaster: Optional[Slide] = None
 
     @classmethod
@@ -54,10 +51,20 @@ class Presentation(GSlidesBaseModel):
                 "unit": processed_data["pageSize"]["width"]["unit"],
             }
 
+        # Process layouts to ensure layoutProperties is included
+        if "layouts" in processed_data:
+            for layout in processed_data["layouts"]:
+                if "layoutProperties" in layout:
+                    # Keep layoutProperties at the top level
+                    pass
+
         # Use Pydantic's model_validate to parse the processed JSON
         out = cls.model_validate(processed_data)
+
+        # Set presentation_id on slides
         for s in out.slides:
             s.presentation_id = out.presentationId
+
         return out
 
     @classmethod

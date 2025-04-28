@@ -28,6 +28,9 @@ from .domain import (
     StretchedPictureFill,
     PageBackgroundFill,
     PageProperties,
+    AutoText,
+    AutoTextType,
+    LayoutProperties,
 )
 from .presentation import Presentation
 from .slide import Slide

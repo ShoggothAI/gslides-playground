@@ -5,7 +5,7 @@ import copy
 from pydantic import BaseModel, Field
 
 
-from gslides_api.domain import PageProperties, GSlidesBaseModel
+from gslides_api.domain import PageProperties, GSlidesBaseModel, LayoutProperties
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
 from gslides_api.notes import NotesPage
@@ -137,3 +137,16 @@ class Slide(GSlidesBaseModel):
             }
         ]
         slides_batch_update(request, self.presentation_id)
+
+
+class Layout(Slide):
+    """Represents a layout in a presentation."""
+
+    layoutProperties: Optional[LayoutProperties] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = super().to_api_format()
+        if self.layoutProperties:
+            result["layoutProperties"] = self.layoutProperties.to_api_format()
+        return result

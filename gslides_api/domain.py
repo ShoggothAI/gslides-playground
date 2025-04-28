@@ -120,6 +120,23 @@ class TextRun(GSlidesBaseModel):
     style: TextStyle = Field(default_factory=TextStyle)
 
 
+class AutoTextType(Enum):
+    """Enumeration of possible auto text types."""
+
+    SLIDE_NUMBER = "SLIDE_NUMBER"
+    SLIDE_COUNT = "SLIDE_COUNT"
+    CURRENT_DATE = "CURRENT_DATE"
+    CURRENT_TIME = "CURRENT_TIME"
+
+
+class AutoText(GSlidesBaseModel):
+    """Represents auto text content that is generated automatically."""
+
+    type: AutoTextType
+    style: Optional[TextStyle] = Field(default_factory=TextStyle)
+    content: Optional[str] = None
+
+
 class TextElement(GSlidesBaseModel):
     """Represents an element within text content."""
 
@@ -127,6 +144,7 @@ class TextElement(GSlidesBaseModel):
     startIndex: Optional[int] = None
     paragraphMarker: Optional[ParagraphMarker] = None
     textRun: Optional[TextRun] = None
+    autoText: Optional[AutoText] = None
 
 
 class Text(GSlidesBaseModel):
@@ -495,6 +513,14 @@ class PageProperties(GSlidesBaseModel):
 
     pageBackgroundFill: Optional[PageBackgroundFill] = None
     colorScheme: Optional[Dict[str, Any]] = None
+
+
+class LayoutProperties(GSlidesBaseModel):
+    """Represents properties of a layout."""
+
+    masterObjectId: str
+    name: Optional[str] = None
+    displayName: Optional[str] = None
 
 
 class NotesProperties(GSlidesBaseModel):
