@@ -1,4 +1,5 @@
 import copy
+import logging
 from typing import List, Optional, Dict, Any
 
 from pydantic import BaseModel
@@ -6,6 +7,8 @@ from pydantic import BaseModel
 from gslides_api import Size, SizeWithUnit
 from gslides_api.execute import create_presentation, get_presentation_json
 from gslides_api.slide import Slide
+
+logger = logging.getLogger(__name__)
 
 
 class Presentation(BaseModel):
@@ -62,6 +65,19 @@ class Presentation(BaseModel):
     def from_id(cls, presentation_id: str) -> "Presentation":
         presentation_json = get_presentation_json(presentation_id)
         return cls.from_json(presentation_json)
+
+    def sync_from_cloud(self):
+        re_p = Presentation.from_id(self.presentationId)
+        self.__dict__ = re_p.__dict__
+
+    def slide_from_id(self, slide_id: str) -> Optional[Slide]:
+        match = [s for s in self.slides if s.objectId == slide_id]
+        if len(match) == 0:
+            logger.error(
+                f"Slide with id {slide_id} not found in presentation {self.presentationId}"
+            )
+            return None
+        return match[0]
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""

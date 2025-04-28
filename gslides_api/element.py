@@ -78,7 +78,7 @@ class PageElement(GSlidesBaseModel):
                             "size": self.size.to_api_format(),
                             "transform": self.transform.to_api_format(),
                         },
-                        "url": self.image.sourceUrl,
+                        "url": self.image.contentUrl,
                     }
                 }
             ]
@@ -105,7 +105,7 @@ class PageElement(GSlidesBaseModel):
                             "size": self.size.to_api_format(),
                             "transform": self.transform.to_api_format(),
                         },
-                        "source": self.video.source.type,
+                        "source": self.video.source.type.value,
                         "columns": self.video.source.id,
                     }
                 }
@@ -179,7 +179,7 @@ class PageElement(GSlidesBaseModel):
             return out
         elif self.image is not None:
             image_properties = self.image.imageProperties.to_api_format()
-            # propertyState is a readonly property, API will barf if we try to set it
+            # "fields": "*" causes an error
             requests = [
                 {
                     "updateImageProperties": {

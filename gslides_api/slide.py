@@ -81,18 +81,23 @@ class Slide(BaseModel):
 
         out = slides_batch_update([{"createSlide": base}], presentation_id)
         new_slide_id = out["replies"][0]["createSlide"]["objectId"]
+
+        return cls.from_ids(presentation_id, new_slide_id)
+
+    @classmethod
+    def from_ids(cls, presentation_id: str, slide_id: str) -> "Slide":
         # To avoid circular imports
         from gslides_api.presentation import Presentation
 
         # If there is a way to just read a single slide, I haven't found it
         p = Presentation.from_id(presentation_id)
-        new_slide = [s for s in p.slides if s.objectId == new_slide_id][0]
+        new_slide = p.slide_from_id(slide_id)
         return new_slide
 
     def write_copy(
         self,
-        presentation_id: Optional[str] = None,
         insertion_index: Optional[int] = None,
+        presentation_id: Optional[str] = None,
     ) -> "Slide":
         """Write the slide to a Google Slides presentation.
 
@@ -122,24 +127,19 @@ class Slide(BaseModel):
                 element_id = element.create(slide_id, presentation_id)
                 element.update(presentation_id, element_id)
 
-        # TODO: fetch the new object from a Presentation.from_id(presentation_id) query and compare!
-        out = copy.deepcopy(self)
-        out.objectId = slide_id
-        out.presentation_id = presentation_id
-
-        return out
+        return self.from_ids(presentation_id, slide_id)
 
     def duplicate(self) -> "Slide":
-        # TODO: support duplicating into another presentation, by writing the domain object to a new presentation
+        """
+        Duplicates the slide in the same presentation.
+
+        :return:
+        """
         assert (
             self.presentation_id is not None
         ), "self.presentation_id must be set when calling duplicate()"
-        # TODO: support duplicating to another presentation
         new_id = duplicate_object(self.objectId, self.presentation_id)
-        out = copy.deepcopy(self)
-        out.objectId = new_id
-        out.presentation_id = self.presentation_id
-        return out
+        return self.from_ids(self.presentation_id, new_id)
 
     def delete(self) -> None:
         assert (
@@ -149,11 +149,12 @@ class Slide(BaseModel):
         return delete_object(self.objectId, self.presentation_id)
 
     def move(self, insertion_index: int) -> None:
-        # TODO: support moving to another presentation
-        assert self.presentation_id is not None, (
-            "For now, moving is only supported within the same presentation, as in the Google Slides API"
-            "so self.presentation_id must be set when calling move()"
-        )
+        """
+        Move the slide to a new position in the presentation.
+
+        Args:
+            insertion_index: The index to insert the slide at.
+        """
         request = [
             {
                 "updateSlidesPosition": {
