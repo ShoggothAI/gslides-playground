@@ -24,7 +24,7 @@ class Presentation(GSlidesBaseModel):
     revisionId: Optional[str] = None
     masters: Optional[List[Dict[str, Any]]] = None
     layouts: Optional[List[Dict[str, Any]]] = None
-    notesMaster: Optional[Dict[str, Any]] = None
+    notesMaster: Optional[Slide] = None
 
     @classmethod
     def create_blank(cls, title: str = "New Presentation") -> "Presentation":

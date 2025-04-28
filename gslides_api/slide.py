@@ -25,12 +25,14 @@ class SlideProperties(GSlidesBaseModel):
 class Slide(GSlidesBaseModel):
     """Represents a slide in a presentation."""
 
+
     objectId: Optional[str] = None
     pageElements: Optional[List[PageElement]] = (
         None  # Make optional to preserve original JSON exactly
     )
     slideProperties: Optional[SlideProperties] = None
     pageProperties: Optional[PageProperties] = None
+    pageType: Optional[str] = None  # Added to capture the pageType field
     presentation_id: Optional[str] = Field(
         default=None, exclude=True
     )  # Store the presentation ID for reference but exclude from model_dump

@@ -74,6 +74,7 @@ class TextStyle(GSlidesBaseModel):
     fontFamily: Optional[str] = None
     fontSize: Optional[Dict[str, Any]] = None  # Keep as dict to preserve original structure
     foregroundColor: Optional[Dict[str, Any]] = None
+    backgroundColor: Optional[Dict[str, Any]] = None
     link: Optional[Dict[str, str]] = None
     weightedFontFamily: Optional[Dict[str, Any]] = None
     baselineOffset: Optional[str] = None
@@ -86,6 +87,12 @@ class ParagraphStyle(GSlidesBaseModel):
     direction: str = "LEFT_TO_RIGHT"
     indentStart: Optional[Dict[str, Any]] = None
     indentFirstLine: Optional[Dict[str, Any]] = None
+    indentEnd: Optional[Dict[str, Any]] = None
+    spacingMode: Optional[str] = None
+    lineSpacing: Optional[float] = None
+    spaceAbove: Optional[Dict[str, Any]] = None
+    spaceBelow: Optional[Dict[str, Any]] = None
+    alignment: Optional[str] = None
 
 
 class BulletStyle(GSlidesBaseModel):
@@ -317,6 +324,7 @@ class ShapeProperties(GSlidesBaseModel):
     outline: Optional[Outline] = None
     shadow: Optional[Shadow] = None
     autofit: Optional[Dict[str, Any]] = None
+    contentAlignment: Optional[str] = None
 
 
 class Placeholder(GSlidesBaseModel):
