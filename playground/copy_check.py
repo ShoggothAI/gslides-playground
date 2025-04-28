@@ -9,6 +9,7 @@ initialize_credentials(credential_location)
 presentation = Presentation.from_id(presentation_id)
 
 clone = presentation.clone()
+print(clone.url)
 
 
 def check_duplication(p: Presentation, index: int, duplicate: bool = False) -> list:

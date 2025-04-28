@@ -540,3 +540,40 @@ class PageType(Enum):
     LAYOUT = "LAYOUT"
     NOTES = "NOTES"
     NOTES_MASTER = "NOTES_MASTER"
+
+
+class PredefinedLayout(Enum):
+    """Enumeration of predefined slide layouts.
+
+    These are common layouts in presentations. However, there is no guarantee that these layouts
+    are present in the current master, as they may have been deleted or are not part of the
+    design being used. Additionally, the placeholder images in each layout may have changed.
+    """
+
+    PREDEFINED_LAYOUT_UNSPECIFIED = "PREDEFINED_LAYOUT_UNSPECIFIED"
+    BLANK = "BLANK"
+    CAPTION_ONLY = "CAPTION_ONLY"
+    TITLE = "TITLE"
+    TITLE_AND_BODY = "TITLE_AND_BODY"
+    TITLE_AND_TWO_COLUMNS = "TITLE_AND_TWO_COLUMNS"
+    TITLE_ONLY = "TITLE_ONLY"
+    SECTION_HEADER = "SECTION_HEADER"
+    SECTION_TITLE_AND_DESCRIPTION = "SECTION_TITLE_AND_DESCRIPTION"
+    ONE_COLUMN_TEXT = "ONE_COLUMN_TEXT"
+    MAIN_POINT = "MAIN_POINT"
+    BIG_NUMBER = "BIG_NUMBER"
+
+
+class LayoutReference(GSlidesBaseModel):
+    """Represents a reference to a layout."""
+
+    layoutId: Optional[str] = None
+    predefinedLayout: Optional[PredefinedLayout] = None
+
+    @model_validator(mode="after")
+    def validate_exactly_one_field_set(self) -> "LayoutReference":
+        """Validate that exactly one of layoutId or predefinedLayout is set."""
+        if (self.layoutId is None and self.predefinedLayout is None) or \
+           (self.layoutId is not None and self.predefinedLayout is not None):
+            raise ValueError("Exactly one of layoutId or predefinedLayout must be set")
+        return self

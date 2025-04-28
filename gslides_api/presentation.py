@@ -74,3 +74,9 @@ class Presentation(GSlidesBaseModel):
             )
             return None
         return match[0]
+
+    @property
+    def url(self):
+        if self.presentationId is None:
+            return None
+        return f"https://docs.google.com/presentation/d/{self.presentationId}/edit"

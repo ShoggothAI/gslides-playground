@@ -23,6 +23,15 @@ def create_presentation(config: dict) -> str:
     return out["presentationId"]
 
 
+def get_slide_json(presentation_id: str, slide_id: str) -> Dict[str, Any]:
+    return (
+        creds.slide_service.presentations()
+        .pages()
+        .get(presentationId=presentation_id, pageObjectId=slide_id)
+        .execute()
+    )
+
+
 def get_presentation_json(presentation_id: str) -> Dict[str, Any]:
     return creds.slide_service.presentations().get(presentationId=presentation_id).execute()
 

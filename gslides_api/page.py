@@ -10,9 +10,10 @@ from gslides_api.domain import (
     MasterProperties,
     NotesProperties,
     PageType,
+    LayoutReference,
 )
 from gslides_api.element import PageElement
-from gslides_api.execute import slides_batch_update
+from gslides_api.execute import slides_batch_update, get_slide_json
 from gslides_api.utils import duplicate_object, delete_object, dict_to_dot_separated_field_list
 
 logger = logging.getLogger(__name__)
@@ -79,14 +80,22 @@ class Page(GSlidesBaseModel):
         cls,
         presentation_id: str,
         insertion_index: Optional[int] = None,
+        slide_layout_reference: Optional[LayoutReference] = None,
+        layoout_placeholder_id_mapping: Optional[dict] = None,
     ) -> "Page":
         """Create a blank slide in a Google Slides presentation.
 
         Args:
             presentation_id: The ID of the presentation to create the slide in.
             insertion_index: The index to insert the slide at. If not provided, the slide will be added at the end.
+            slide_layout_reference: The layout reference to use for the slide.
+            layoout_placeholder_id_mapping: The mapping of placeholder IDs to use for the slide.
         """
+
+        # https://developers.google.com/slides/api/reference/rest/v1/presentations/request#CreateSlideRequest
         base = {} if insertion_index is None else {"insertionIndex": insertion_index}
+        if slide_layout_reference is not None:
+            base["slideLayoutReference"] = slide_layout_reference.to_api_format()
 
         out = slides_batch_update([{"createSlide": base}], presentation_id)
         new_slide_id = out["replies"][0]["createSlide"]["objectId"]
@@ -96,11 +105,8 @@ class Page(GSlidesBaseModel):
     @classmethod
     def from_ids(cls, presentation_id: str, slide_id: str) -> "Page":
         # To avoid circular imports
-        from gslides_api.presentation import Presentation
-
-        # If there is a way to just read a single slide, I haven't found it
-        p = Presentation.from_id(presentation_id)
-        new_slide = p.slide_from_id(slide_id)
+        json = get_slide_json(presentation_id, slide_id)
+        new_slide = cls.model_validate(json)
         return new_slide
 
     def write_copy(
@@ -116,22 +122,43 @@ class Page(GSlidesBaseModel):
         """
         presentation_id = presentation_id or self.presentation_id
 
-        new_slide = self.create_blank(presentation_id, insertion_index)
+        new_slide = self.create_blank(
+            presentation_id,
+            insertion_index,
+            slide_layout_reference=LayoutReference(layoutId=self.slideProperties.layoutObjectId),
+        )
         slide_id = new_slide.objectId
 
-        # # TODO: this raises an InternalError, need to debug
-        # page_properties = self.pageProperties.to_api_format()
-        # request = [
-        #     {
-        #         "updatePageProperties": {
-        #             "objectId": slide_id,
-        #             "pageProperties": page_properties,
-        #             "fields": ",".join(dict_to_dot_separated_field_list(page_properties)),
-        #         }
-        #     }
-        # ]
-        # slides_batch_update(request, presentation_id)
-        # TODO: how about SlideProperties?
+        try:
+            # TODO: this raises an InternalError, need to debug
+            page_properties = self.pageProperties.to_api_format()
+            request = [
+                {
+                    "updatePageProperties": {
+                        "objectId": slide_id,
+                        "pageProperties": page_properties,
+                        "fields": ",".join(dict_to_dot_separated_field_list(page_properties)),
+                    }
+                }
+            ]
+            slides_batch_update(request, presentation_id)
+        except Exception as e:
+            logger.error(f"Error writing page properties: {e}")
+
+        slide_properties = self.slideProperties.to_api_format()
+        slide_properties.pop("masterObjectId", None)
+        slide_properties.pop("layoutObjectId", None)
+        request = [
+            {
+                "updateSlideProperties": {
+                    "objectId": slide_id,
+                    "slideProperties": slide_properties,
+                    "fields": ",".join(dict_to_dot_separated_field_list(slide_properties)),
+                }
+            }
+        ]
+        slides_batch_update(request, presentation_id)
+
         if self.pageElements is not None:
             for element in self.pageElements:
                 element_id = element.create(slide_id, presentation_id)

@@ -32,6 +32,7 @@ from .domain import (
     MasterProperties,
     NotesProperties,
     PageType,
+    PredefinedLayout,
     ColorScheme,
     ThemeColorPair,
 )

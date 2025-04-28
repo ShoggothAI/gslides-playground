@@ -39,7 +39,7 @@ def test_write_sets_presentation_id(monkeypatch):
     )
 
     # Mock the create_blank method to avoid API calls
-    def mock_create_blank(self, presentation_id, insertion_index=None):
+    def mock_create_blank(self, presentation_id, insertion_index=None, slide_layout_reference=None, layoout_placeholder_id_mapping=None):
         # Return a Slide object instead of just a string
         mock_slide = Page(
             objectId="new-slide-id",
