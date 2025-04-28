@@ -119,18 +119,18 @@ class Page(GSlidesBaseModel):
         new_slide = self.create_blank(presentation_id, insertion_index)
         slide_id = new_slide.objectId
 
-        # TODO: this raises an InternalError, need to debug
-        page_properties = self.pageProperties.to_api_format()
-        request = [
-            {
-                "updatePageProperties": {
-                    "objectId": slide_id,
-                    "pageProperties": page_properties,
-                    "fields": ",".join(dict_to_dot_separated_field_list(page_properties)),
-                }
-            }
-        ]
-        slides_batch_update(request, presentation_id)
+        # # TODO: this raises an InternalError, need to debug
+        # page_properties = self.pageProperties.to_api_format()
+        # request = [
+        #     {
+        #         "updatePageProperties": {
+        #             "objectId": slide_id,
+        #             "pageProperties": page_properties,
+        #             "fields": ",".join(dict_to_dot_separated_field_list(page_properties)),
+        #         }
+        #     }
+        # ]
+        # slides_batch_update(request, presentation_id)
         # TODO: how about SlideProperties?
         if self.pageElements is not None:
             for element in self.pageElements:

@@ -40,19 +40,8 @@ class Presentation(GSlidesBaseModel):
         Returns:
             A Presentation object populated with the data from the JSON
         """
-        # Make a deep copy of the input data to avoid modifying it
-        processed_data = copy.deepcopy(json_data)
-
-        # Process the pageSize which has a nested structure
-        if "pageSize" in processed_data:
-            processed_data["pageSize"] = {
-                "width": Dimension.from_api_format(processed_data["pageSize"]["width"]),
-                "height": Dimension.from_api_format(processed_data["pageSize"]["height"]),
-                "unit": processed_data["pageSize"]["width"]["unit"],
-            }
-
         # Use Pydantic's model_validate to parse the processed JSON
-        out = cls.model_validate(processed_data)
+        out = cls.model_validate(json_data)
 
         # Set presentation_id on slides
         for s in out.slides:
