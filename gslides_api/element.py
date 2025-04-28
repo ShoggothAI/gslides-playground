@@ -2,6 +2,7 @@ from typing import Optional, Dict, Any, List
 
 from gslides_api.domain import GSlidesBaseModel, Transform, Shape, Table, Image, Size, Video
 from gslides_api.execute import slides_batch_update
+from gslides_api.utils import dict_to_dot_separated_field_list
 
 
 class PageElement(GSlidesBaseModel):
@@ -193,14 +194,3 @@ class PageElement(GSlidesBaseModel):
         else:
             return []
             # raise NotImplementedError
-
-
-def dict_to_dot_separated_field_list(x: Dict[str, Any]) -> List[str]:
-    """Convert a dictionary to a list of dot-separated fields."""
-    out = []
-    for k, v in x.items():
-        if isinstance(v, dict):
-            out += [f"{k}.{i}" for i in dict_to_dot_separated_field_list(v)]
-        else:
-            out.append(k)
-    return out

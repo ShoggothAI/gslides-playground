@@ -25,6 +25,10 @@ from .domain import (
     RecolorName,
     Recolor,
     ImageProperties,
+    PropertyState,
+    StretchedPictureFill,
+    PageBackgroundFill,
+    PageProperties,
 )
 from .presentation import Presentation
 from .slide import Slide

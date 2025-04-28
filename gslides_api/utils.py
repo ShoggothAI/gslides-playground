@@ -1,3 +1,5 @@
+from typing import Dict, Any, List
+
 from gslides_api.execute import slides_batch_update
 
 
@@ -31,3 +33,14 @@ def delete_object(object_id: str, presentation_id: str) -> None:
     """
     request = {"deleteObject": {"objectId": object_id}}
     slides_batch_update([request], presentation_id)
+
+
+def dict_to_dot_separated_field_list(x: Dict[str, Any]) -> List[str]:
+    """Convert a dictionary to a list of dot-separated fields."""
+    out = []
+    for k, v in x.items():
+        if isinstance(v, dict):
+            out += [f"{k}.{i}" for i in dict_to_dot_separated_field_list(v)]
+        else:
+            out.append(k)
+    return out

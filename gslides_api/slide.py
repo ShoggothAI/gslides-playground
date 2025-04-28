@@ -9,7 +9,7 @@ from gslides_api.domain import PageProperties, GSlidesBaseModel
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
 from gslides_api.notes import NotesPage
-from gslides_api.utils import duplicate_object, delete_object
+from gslides_api.utils import duplicate_object, delete_object, dict_to_dot_separated_field_list
 
 logger = logging.getLogger(__name__)
 
@@ -111,16 +111,17 @@ class Slide(BaseModel):
         slide_id = new_slide.objectId
 
         # TODO: this raises an InternalError, need to debug
-        # request = [
-        #     {
-        #         "updatePageProperties": {
-        #             "objectId": slide_id,
-        #             "pageProperties": self.pageProperties.to_api_format(),
-        #             "fields": "*",
-        #         }
-        #     }
-        # ]
-        # slides_batch_update(request, presentation_id)
+        page_properties = self.pageProperties.to_api_format()
+        request = [
+            {
+                "updatePageProperties": {
+                    "objectId": slide_id,
+                    "pageProperties": page_properties,
+                    "fields": ",".join(dict_to_dot_separated_field_list(page_properties)),
+                }
+            }
+        ]
+        slides_batch_update(request, presentation_id)
         # TODO: how about SlideProperties?
         if self.pageElements is not None:
             for element in self.pageElements:

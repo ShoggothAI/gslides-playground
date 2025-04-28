@@ -693,10 +693,70 @@ class Video(GSlidesBaseModel):
         return result
 
 
+class PropertyState(Enum):
+    """The possible states of a property."""
+
+    RENDERED = "RENDERED"
+    NOT_RENDERED = "NOT_RENDERED"
+    INHERIT = "INHERIT"
+
+
+class StretchedPictureFill(GSlidesBaseModel):
+    """Represents a stretched picture fill for a page background."""
+
+    contentUrl: str
+    size: Optional[Size] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {"contentUrl": self.contentUrl}
+
+        if self.size is not None:
+            result["size"] = self.size.to_api_format()
+
+        return result
+
+
+class PageBackgroundFill(GSlidesBaseModel):
+    """Represents the background fill of a page."""
+
+    propertyState: Optional[PropertyState] = None
+    solidFill: Optional[SolidFill] = None
+    stretchedPictureFill: Optional[StretchedPictureFill] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {}
+
+        if self.propertyState is not None:
+            result["propertyState"] = self.propertyState.value
+
+        if self.solidFill is not None:
+            result["solidFill"] = self.solidFill.to_api_format()
+
+        if self.stretchedPictureFill is not None:
+            result["stretchedPictureFill"] = self.stretchedPictureFill.to_api_format()
+
+        return result
+
+
 class PageProperties(GSlidesBaseModel):
     """Represents properties of a page."""
 
-    pageBackgroundFill: Dict[str, Any]
+    pageBackgroundFill: Optional[PageBackgroundFill] = None
+    colorScheme: Optional[Dict[str, Any]] = None
+
+    def to_api_format(self) -> Dict[str, Any]:
+        """Convert to the format expected by the Google Slides API."""
+        result = {}
+
+        if self.pageBackgroundFill is not None:
+            result["pageBackgroundFill"] = self.pageBackgroundFill.to_api_format()
+
+        if self.colorScheme is not None:
+            result["colorScheme"] = self.colorScheme
+
+        return result
 
 
 class NotesProperties(GSlidesBaseModel):

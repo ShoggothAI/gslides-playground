@@ -9,9 +9,13 @@ initialize_credentials(credential_location)
 presentation = Presentation.from_id(presentation_id)
 
 
-def check_duplication(p: Presentation, index: int) -> list:
+def check_duplication(p: Presentation, index: int, duplicate: bool = False) -> list:
     slide = p.slides[index]
-    new_slide = slide.write_copy(insertion_index=index + 1)
+    if duplicate:
+        # This passed all checks
+        new_slide = slide.duplicate()
+    else:
+        new_slide = slide.write_copy(insertion_index=index + 1)
     diff = json_diff(
         slide.to_api_format(),
         new_slide.to_api_format(),
