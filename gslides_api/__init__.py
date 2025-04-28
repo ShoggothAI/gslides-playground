@@ -1,6 +1,6 @@
 from .domain import (
     Size,
-    SizeWithUnit,
+    Dimension,
     TextElement,
     Video,
     VideoSource,

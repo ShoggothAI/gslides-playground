@@ -7,66 +7,56 @@ from pydantic.json import pydantic_encoder
 # from gslides_api.notes import NotesPage
 
 
-class EnumEncoder(json.JSONEncoder):
-    """JSON encoder that handles Enum types."""
-
-    def default(self, obj):
-        if isinstance(obj, Enum):
-            return obj.value
-        return super().default(obj)
-
-
 class GSlidesBaseModel(BaseModel):
     """Base class for all models in the Google Slides API."""
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
-        return super().model_dump(exclude_none=True)
+        return super().model_dump(exclude_none=True, mode="json")
 
 
-class SizeWithUnit(GSlidesBaseModel):
+class Dimension(GSlidesBaseModel):
     """Represents a size dimension with magnitude and unit."""
 
     magnitude: float
-    unit: str = "EMU"  # Engineering Measurement Unit
+    unit: Optional[str] = None
 
     @classmethod
-    def from_api_format(cls, data: Dict[str, Any]) -> "SizeWithUnit":
+    def from_api_format(cls, data: Dict[str, Any]) -> "Dimension":
         """Create a SizeWithUnit from API format."""
         if isinstance(data, dict) and "magnitude" in data:
             return cls(magnitude=data["magnitude"], unit=data.get("unit", "EMU"))
         # If it's just a number, assume it's the magnitude
         if isinstance(data, (int, float)):
             return cls(magnitude=data)
-        raise ValueError(f"Cannot convert {data} to SizeWithUnit")
+        raise ValueError(f"Cannot convert {data} to Dimension")
 
 
 class Size(GSlidesBaseModel):
     """Represents a size with width and height."""
 
-    width: Union[float, SizeWithUnit]
-    height: Union[float, SizeWithUnit]
-    unit: str = "EMU"  # Engineering Measurement Unit
+    width: Union[float, Dimension]
+    height: Union[float, Dimension]
 
     @model_validator(mode="after")
     def convert_dimensions(self) -> "Size":
         """Convert width and height to SizeWithUnit if they are floats."""
         if isinstance(self.width, float):
-            self.width = SizeWithUnit(magnitude=self.width, unit=self.unit)
+            self.width = Dimension(magnitude=self.width, unit=self.unit)
         if isinstance(self.height, float):
-            self.height = SizeWithUnit(magnitude=self.height, unit=self.unit)
+            self.height = Dimension(magnitude=self.height, unit=self.unit)
         return self
 
     def to_api_format(self) -> Dict[str, Any]:
         """Convert to the format expected by the Google Slides API."""
         width_val = (
             self.width.to_api_format()
-            if isinstance(self.width, SizeWithUnit)
+            if isinstance(self.width, Dimension)
             else {"magnitude": self.width, "unit": self.unit}
         )
         height_val = (
             self.height.to_api_format()
-            if isinstance(self.height, SizeWithUnit)
+            if isinstance(self.height, Dimension)
             else {"magnitude": self.height, "unit": self.unit}
         )
         return {"width": width_val, "height": height_val}

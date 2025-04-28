@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 
 from pydantic import BaseModel
 
-from gslides_api import Size, SizeWithUnit
+from gslides_api import Size, Dimension
 from gslides_api.execute import create_presentation, get_presentation_json
 from gslides_api.slide import Slide
 
@@ -23,9 +23,9 @@ class Presentation(BaseModel):
     title: Optional[str] = None
     locale: Optional[str] = None
     revisionId: Optional[str] = None
-    masters: Optional[List[Slide]] = None
-    layouts: Optional[List[Slide]] = None
-    notesMaster: Optional[Slide] = None
+    masters: Optional[List[Dict[str, Any]]] = None
+    layouts: Optional[List[Dict[str, Any]]] = None
+    notesMaster: Optional[Dict[str, Any]] = None
 
     @classmethod
     def create_blank(cls, title: str = "New Presentation") -> "Presentation":
@@ -50,8 +50,8 @@ class Presentation(BaseModel):
         # Process the pageSize which has a nested structure
         if "pageSize" in processed_data:
             processed_data["pageSize"] = {
-                "width": SizeWithUnit.from_api_format(processed_data["pageSize"]["width"]),
-                "height": SizeWithUnit.from_api_format(processed_data["pageSize"]["height"]),
+                "width": Dimension.from_api_format(processed_data["pageSize"]["width"]),
+                "height": Dimension.from_api_format(processed_data["pageSize"]["height"]),
                 "unit": processed_data["pageSize"]["width"]["unit"],
             }
 
@@ -113,12 +113,12 @@ class Presentation(BaseModel):
         # Convert pageSize back to the original nested structure
         width_val = (
             self.pageSize.width.to_api_format()
-            if isinstance(self.pageSize.width, SizeWithUnit)
+            if isinstance(self.pageSize.width, Dimension)
             else {"magnitude": self.pageSize.width, "unit": self.pageSize.unit}
         )
         height_val = (
             self.pageSize.height.to_api_format()
-            if isinstance(self.pageSize.height, SizeWithUnit)
+            if isinstance(self.pageSize.height, Dimension)
             else {"magnitude": self.pageSize.height, "unit": self.pageSize.unit}
         )
 
@@ -138,12 +138,12 @@ class Presentation(BaseModel):
             result["revisionId"] = self.revisionId
 
         if self.masters is not None:
-            result["masters"] = [master.to_api_format() for master in self.masters] if isinstance(self.masters, list) else self.masters
+            result["masters"] = self.masters
 
         if self.layouts is not None:
-            result["layouts"] = [layout.to_api_format() for layout in self.layouts] if isinstance(self.layouts, list) else self.layouts
+            result["layouts"] = self.layouts
 
         if self.notesMaster is not None:
-            result["notesMaster"] = self.notesMaster.to_api_format() if hasattr(self.notesMaster, "to_api_format") else self.notesMaster
+            result["notesMaster"] = self.notesMaster
 
         return result
