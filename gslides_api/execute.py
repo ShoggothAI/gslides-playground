@@ -17,8 +17,9 @@ def slides_batch_update(requests: list, presentation_id: str) -> Dict[str, Any]:
     )
 
 
-def create_presentation(title: str) -> str:
-    out = creds.slide_service.presentations().create(body={"title": title}).execute()
+def create_presentation(config: dict) -> str:
+    # https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/create
+    out = creds.slide_service.presentations().create(body=config).execute()
     return out["presentationId"]
 
 

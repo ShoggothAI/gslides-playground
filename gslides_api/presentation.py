@@ -30,7 +30,7 @@ class Presentation(BaseModel):
     @classmethod
     def create_blank(cls, title: str = "New Presentation") -> "Presentation":
         """Create a blank presentation in Google Slides."""
-        new_id = create_presentation(title)
+        new_id = create_presentation({"title": title})
         return cls.from_id(new_id)
 
     @classmethod
@@ -65,6 +65,14 @@ class Presentation(BaseModel):
     def from_id(cls, presentation_id: str) -> "Presentation":
         presentation_json = get_presentation_json(presentation_id)
         return cls.from_json(presentation_json)
+
+    def clone(self) -> "Presentation":
+        """Clone a presentation in Google Slides."""
+        config = self.to_api_format()
+        config.pop("presentationId", None)
+        config.pop("revisionId", None)
+        new_id = create_presentation(config)
+        return self.from_id(new_id)
 
     def sync_from_cloud(self):
         re_p = Presentation.from_id(self.presentationId)

@@ -70,7 +70,11 @@ class Slide(BaseModel):
         return result
 
     @classmethod
-    def create_blank(cls, presentation_id: str, insertion_index: Optional[int] = None) -> "Slide":
+    def create_blank(
+        cls,
+        presentation_id: str,
+        insertion_index: Optional[int] = None,
+    ) -> "Slide":
         """Create a blank slide in a Google Slides presentation.
 
         Args:

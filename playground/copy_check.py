@@ -8,6 +8,8 @@ initialize_credentials(credential_location)
 
 presentation = Presentation.from_id(presentation_id)
 
+clone = presentation.clone()
+
 
 def check_duplication(p: Presentation, index: int, duplicate: bool = False) -> list:
     slide = p.slides[index]
