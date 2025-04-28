@@ -23,9 +23,9 @@ class Presentation(BaseModel):
     title: Optional[str] = None
     locale: Optional[str] = None
     revisionId: Optional[str] = None
-    masters: Optional[List[Dict[str, Any]]] = None
-    layouts: Optional[List[Dict[str, Any]]] = None
-    notesMaster: Optional[Dict[str, Any]] = None
+    masters: Optional[List[Slide]] = None
+    layouts: Optional[List[Slide]] = None
+    notesMaster: Optional[Slide] = None
 
     @classmethod
     def create_blank(cls, title: str = "New Presentation") -> "Presentation":
@@ -138,12 +138,12 @@ class Presentation(BaseModel):
             result["revisionId"] = self.revisionId
 
         if self.masters is not None:
-            result["masters"] = self.masters
+            result["masters"] = [master.to_api_format() for master in self.masters] if isinstance(self.masters, list) else self.masters
 
         if self.layouts is not None:
-            result["layouts"] = self.layouts
+            result["layouts"] = [layout.to_api_format() for layout in self.layouts] if isinstance(self.layouts, list) else self.layouts
 
         if self.notesMaster is not None:
-            result["notesMaster"] = self.notesMaster
+            result["notesMaster"] = self.notesMaster.to_api_format() if hasattr(self.notesMaster, "to_api_format") else self.notesMaster
 
         return result

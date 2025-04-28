@@ -6,6 +6,7 @@ import pytest
 
 # Import our custom modules
 from gslides_api import Presentation
+from gslides_api.domain import EnumEncoder
 from gslides_api.json_diff import json_diff
 
 
@@ -55,7 +56,7 @@ def ignored_paths() -> Set[str]:
 def test_save_reconstructed_json(reconstructed_json: Dict[str, Any], output_json_path: str):
     """Test that we can save the reconstructed JSON to a file."""
     with open(output_json_path, "w") as f:
-        json.dump(reconstructed_json, f, indent=2)
+        json.dump(reconstructed_json, f, indent=2, cls=EnumEncoder)
     assert os.path.exists(
         output_json_path
     ), f"Failed to save reconstructed JSON to {output_json_path}"

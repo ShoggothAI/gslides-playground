@@ -38,8 +38,8 @@ class Slide(BaseModel):
     pageElements: Optional[List[PageElement]] = (
         None  # Make optional to preserve original JSON exactly
     )
-    slideProperties: SlideProperties
-    pageProperties: PageProperties
+    slideProperties: Optional[SlideProperties] = None
+    pageProperties: Optional[PageProperties] = None
     presentation_id: Optional[str] = None  # Store the presentation ID for reference
 
     def to_api_format(self) -> Dict[str, Any]:
@@ -59,9 +59,14 @@ class Slide(BaseModel):
         }
 
         # Add the standard fields
-        result["objectId"] = self.objectId
-        result["slideProperties"] = self.slideProperties.to_api_format()
-        result["pageProperties"] = self.pageProperties.to_api_format()
+        if self.objectId is not None:
+            result["objectId"] = self.objectId
+
+        if self.slideProperties is not None:
+            result["slideProperties"] = self.slideProperties.to_api_format()
+
+        if self.pageProperties is not None:
+            result["pageProperties"] = self.pageProperties.to_api_format()
 
         # Only include pageElements if it exists in the original
         if self.pageElements is not None:
