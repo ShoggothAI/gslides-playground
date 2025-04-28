@@ -27,10 +27,8 @@ from .domain import (
     PropertyState,
     StretchedPictureFill,
     PageBackgroundFill,
-    PageProperties,
     AutoText,
     AutoTextType,
-    LayoutProperties,
     MasterProperties,
     NotesProperties,
     PageType,
@@ -38,5 +36,8 @@ from .domain import (
     ThemeColorPair,
 )
 from .presentation import Presentation
-from .page import Page
+from .page import Page, LayoutProperties, SlidePageProperties
 from .credentials import initialize_credentials
+
+# Import SlidePageProperties as PageProperties for backward compatibility
+PageProperties = SlidePageProperties

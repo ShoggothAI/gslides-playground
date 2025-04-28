@@ -1,6 +1,5 @@
 from typing import List, Dict, Optional, Any, Union
 from enum import Enum
-import json
 from pydantic import BaseModel, Field, model_validator
 from pydantic.json import pydantic_encoder
 
@@ -521,21 +520,6 @@ class PageBackgroundFill(GSlidesBaseModel):
     stretchedPictureFill: Optional[StretchedPictureFill] = None
 
 
-class PageProperties(GSlidesBaseModel):
-    """Represents properties of a page."""
-
-    pageBackgroundFill: Optional[PageBackgroundFill] = None
-    colorScheme: Optional[ColorScheme] = None
-
-
-class LayoutProperties(GSlidesBaseModel):
-    """Represents properties of a layout."""
-
-    masterObjectId: str
-    name: Optional[str] = None
-    displayName: Optional[str] = None
-
-
 class NotesProperties(GSlidesBaseModel):
     """Represents properties of notes."""
 
@@ -556,6 +540,3 @@ class PageType(Enum):
     LAYOUT = "LAYOUT"
     NOTES = "NOTES"
     NOTES_MASTER = "NOTES_MASTER"
-
-
-

@@ -1,32 +1,57 @@
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Union, ForwardRef
+
 import logging
-import copy
 
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-
+from gslides_api import PageBackgroundFill, ColorScheme
 from gslides_api.domain import (
-    PageProperties,
     GSlidesBaseModel,
-    LayoutProperties,
     MasterProperties,
     NotesProperties,
     PageType,
 )
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
-from gslides_api.notes import NotesPage
 from gslides_api.utils import duplicate_object, delete_object, dict_to_dot_separated_field_list
 
 logger = logging.getLogger(__name__)
 
 
-# class PageProperties(GSlidesBaseModel):
-#     """Represents properties of a slide."""
-#
-#     layoutObjectId: str
-#     masterObjectId: str
-#     notesPage: Optional[NotesPage] = None
+class SlideProperties(GSlidesBaseModel):
+    """Represents properties of a slide."""
+
+    layoutObjectId: Optional[str] = None
+    masterObjectId: Optional[str] = None
+    notesPage: Optional[ForwardRef("Page")] = None
+    isSkipped: Optional[bool] = None
+
+
+class LayoutProperties(GSlidesBaseModel):
+    """Represents properties of a layout."""
+
+    masterObjectId: Optional[str] = None
+    name: Optional[str] = None
+    displayName: Optional[str] = None
+
+
+# https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations.pages#pageproperties
+# The page will inherit properties from the parent page.
+# Depending on the page type the hierarchy is defined in either SlideProperties or LayoutProperties.
+
+
+class SlidePageProperties(SlideProperties):
+    """Represents properties of a page."""
+
+    pageBackgroundFill: Optional[PageBackgroundFill] = None
+    colorScheme: Optional[ColorScheme] = None
+
+
+class LayoutPageProperties(LayoutProperties):
+    """Represents properties of a page."""
+
+    pageBackgroundFill: Optional[PageBackgroundFill] = None
+    colorScheme: Optional[ColorScheme] = None
 
 
 class Page(GSlidesBaseModel):
@@ -37,11 +62,11 @@ class Page(GSlidesBaseModel):
         None  # Make optional to preserve original JSON exactly
     )
     revisionId: Optional[str] = None
-    pageProperties: Optional[PageProperties] = None
+    pageProperties: Optional[Union[SlidePageProperties, LayoutPageProperties]] = None
     pageType: Optional[PageType] = None
 
     # Union field properties - only one of these should be set
-    slideProperties: Optional[PageProperties] = None
+    slideProperties: Optional[SlideProperties] = None
     layoutProperties: Optional[LayoutProperties] = None
     notesProperties: Optional[NotesProperties] = None
     masterProperties: Optional[MasterProperties] = None
@@ -149,3 +174,7 @@ class Page(GSlidesBaseModel):
             }
         ]
         slides_batch_update(request, self.presentation_id)
+
+
+SlidePageProperties.model_rebuild()
+Page.model_rebuild()
