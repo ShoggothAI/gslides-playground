@@ -13,6 +13,130 @@
   "slides": [
     {
       "objectId": "e6038bc0-202b-11f0-9608-b70dca876941",
+      "pageElements": [
+        {
+          "objectId": "SLIDES_API2026791344_0",
+          "size": {
+            "width": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            },
+            "height": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            }
+          },
+          "transform": {
+            "translateX": 311708.35000000003,
+            "translateY": 744575.0,
+            "scaleX": 2.8402,
+            "scaleY": 0.6842,
+            "unit": "EMU"
+          },
+          "shape": {
+            "shapeProperties": {
+              "shapeBackgroundFill": {
+                "propertyState": "INHERIT"
+              },
+              "outline": {
+                "propertyState": "INHERIT"
+              },
+              "shadow": {
+                "propertyState": "INHERIT"
+              },
+              "autofit": {
+                "autofitType": "NONE",
+                "fontScale": 1
+              }
+            },
+            "shapeType": "TEXT_BOX",
+            "text": {
+              "textElements": [
+                {
+                  "endIndex": 22,
+                  "paragraphMarker": {
+                    "style": {
+                      "direction": "LEFT_TO_RIGHT"
+                    }
+                  }
+                },
+                {
+                  "endIndex": 22,
+                  "textRun": {
+                    "content": "This is a title slide\n",
+                    "style": {}
+                  }
+                }
+              ]
+            },
+            "placeholder": {
+              "type": "CENTERED_TITLE",
+              "parentObjectId": "p2_i0"
+            }
+          }
+        },
+        {
+          "objectId": "SLIDES_API2026791344_1",
+          "size": {
+            "width": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            },
+            "height": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            }
+          },
+          "transform": {
+            "translateX": 311700.0,
+            "translateY": 2834125.0,
+            "scaleX": 2.8402,
+            "scaleY": 0.2642,
+            "unit": "EMU"
+          },
+          "shape": {
+            "shapeProperties": {
+              "shapeBackgroundFill": {
+                "propertyState": "INHERIT"
+              },
+              "outline": {
+                "propertyState": "INHERIT"
+              },
+              "shadow": {
+                "propertyState": "INHERIT"
+              },
+              "autofit": {
+                "autofitType": "NONE",
+                "fontScale": 1
+              }
+            },
+            "shapeType": "TEXT_BOX",
+            "text": {
+              "textElements": [
+                {
+                  "endIndex": 15,
+                  "paragraphMarker": {
+                    "style": {
+                      "direction": "LEFT_TO_RIGHT"
+                    }
+                  }
+                },
+                {
+                  "endIndex": 15,
+                  "textRun": {
+                    "content": "Your name here\n",
+                    "style": {}
+                  }
+                }
+              ]
+            },
+            "placeholder": {
+              "type": "SUBTITLE",
+              "parentObjectId": "p2_i1"
+            }
+          }
+        }
+      ],
       "slideProperties": {
         "layoutObjectId": "p2",
         "masterObjectId": "simple-light-2",
@@ -156,71 +280,13 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e6038bc1-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
-          "objectId": "SLIDES_API2026791344_0",
-          "size": {
-            "width": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            },
-            "height": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            }
-          },
-          "transform": {
-            "translateX": 311708.35000000003,
-            "translateY": 744575.0,
-            "scaleX": 2.8402,
-            "scaleY": 0.6842,
-            "unit": "EMU"
-          },
-          "shape": {
-            "shapeProperties": {
-              "shapeBackgroundFill": {
-                "propertyState": "INHERIT"
-              },
-              "outline": {
-                "propertyState": "INHERIT"
-              },
-              "shadow": {
-                "propertyState": "INHERIT"
-              },
-              "autofit": {
-                "autofitType": "NONE",
-                "fontScale": 1
-              }
-            },
-            "shapeType": "TEXT_BOX",
-            "text": {
-              "textElements": [
-                {
-                  "endIndex": 22,
-                  "paragraphMarker": {
-                    "style": {
-                      "direction": "LEFT_TO_RIGHT"
-                    }
-                  }
-                },
-                {
-                  "endIndex": 22,
-                  "textRun": {
-                    "content": "This is a title slide\n",
-                    "style": {}
-                  }
-                }
-              ]
-            },
-            "placeholder": {
-              "type": "CENTERED_TITLE",
-              "parentObjectId": "p2_i0"
-            }
-          }
-        },
-        {
-          "objectId": "SLIDES_API2026791344_1",
+          "objectId": "SLIDES_API2026791344_4",
           "size": {
             "width": {
               "magnitude": 3000000.0,
@@ -233,9 +299,9 @@
           },
           "transform": {
             "translateX": 311700.0,
-            "translateY": 2834125.0,
+            "translateY": 2150850.0,
             "scaleX": 2.8402,
-            "scaleY": 0.2642,
+            "scaleY": 0.2806,
             "unit": "EMU"
           },
           "shape": {
@@ -258,7 +324,7 @@
             "text": {
               "textElements": [
                 {
-                  "endIndex": 15,
+                  "endIndex": 20,
                   "paragraphMarker": {
                     "style": {
                       "direction": "LEFT_TO_RIGHT"
@@ -266,24 +332,21 @@
                   }
                 },
                 {
-                  "endIndex": 15,
+                  "endIndex": 20,
                   "textRun": {
-                    "content": "Your name here\n",
+                    "content": "Section title slide\n",
                     "style": {}
                   }
                 }
               ]
             },
             "placeholder": {
-              "type": "SUBTITLE",
-              "parentObjectId": "p2_i1"
+              "type": "TITLE",
+              "parentObjectId": "p3_i0"
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e6038bc1-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p3",
         "masterObjectId": "simple-light-2",
@@ -379,169 +442,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
-      "pageElements": [
-        {
-          "objectId": "SLIDES_API2026791344_4",
-          "size": {
-            "width": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            },
-            "height": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            }
-          },
-          "transform": {
-            "translateX": 311700.0,
-            "translateY": 2150850.0,
-            "scaleX": 2.8402,
-            "scaleY": 0.2806,
-            "unit": "EMU"
-          },
-          "shape": {
-            "shapeProperties": {
-              "shapeBackgroundFill": {
-                "propertyState": "INHERIT"
-              },
-              "outline": {
-                "propertyState": "INHERIT"
-              },
-              "shadow": {
-                "propertyState": "INHERIT"
-              },
-              "autofit": {
-                "autofitType": "NONE",
-                "fontScale": 1
-              }
-            },
-            "shapeType": "TEXT_BOX",
-            "text": {
-              "textElements": [
-                {
-                  "endIndex": 20,
-                  "paragraphMarker": {
-                    "style": {
-                      "direction": "LEFT_TO_RIGHT"
-                    }
-                  }
-                },
-                {
-                  "endIndex": 20,
-                  "textRun": {
-                    "content": "Section title slide\n",
-                    "style": {}
-                  }
-                }
-              ]
-            },
-            "placeholder": {
-              "type": "TITLE",
-              "parentObjectId": "p3_i0"
-            }
-          }
-        }
-      ]
+      }
     },
     {
       "objectId": "e603b2d0-202b-11f0-9608-b70dca876941",
-      "slideProperties": {
-        "layoutObjectId": "p4",
-        "masterObjectId": "simple-light-2",
-        "notesPage": {
-          "objectId": "e603b2d0-202b-11f0-9608-b70dca876941:notes",
-          "pageType": "NOTES",
-          "pageElements": [
-            {
-              "objectId": "SLIDES_API2026791344_9",
-              "size": {
-                "width": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                },
-                "height": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                }
-              },
-              "transform": {
-                "translateX": 381300.0,
-                "translateY": 685800.0,
-                "scaleX": 2.032,
-                "scaleY": 1.143,
-                "unit": "EMU"
-              },
-              "shape": {
-                "shapeProperties": {
-                  "outline": {
-                    "propertyState": "INHERIT"
-                  }
-                },
-                "placeholder": {
-                  "type": "SLIDE_IMAGE",
-                  "parentObjectId": "n:slide"
-                }
-              }
-            },
-            {
-              "objectId": "SLIDES_API2026791344_10",
-              "size": {
-                "width": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                },
-                "height": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                }
-              },
-              "transform": {
-                "translateX": 685800.0,
-                "translateY": 4343400.0,
-                "scaleX": 1.8288,
-                "scaleY": 1.3716,
-                "unit": "EMU"
-              },
-              "shape": {
-                "shapeProperties": {
-                  "shapeBackgroundFill": {
-                    "propertyState": "INHERIT"
-                  },
-                  "outline": {
-                    "propertyState": "INHERIT"
-                  },
-                  "shadow": {
-                    "propertyState": "INHERIT"
-                  },
-                  "autofit": {
-                    "fontScale": 1
-                  }
-                },
-                "shapeType": "TEXT_BOX",
-                "placeholder": {
-                  "type": "BODY",
-                  "parentObjectId": "n:text",
-                  "index": 1
-                }
-              }
-            }
-          ],
-          "pageProperties": {
-            "pageBackgroundFill": {
-              "propertyState": "INHERIT"
-            }
-          },
-          "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_10"
-          }
-        }
-      },
-      "pageProperties": {
-        "pageBackgroundFill": {
-          "propertyState": "INHERIT"
-        }
-      },
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_7",
@@ -968,19 +872,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2d1-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
-        "layoutObjectId": "p9",
+        "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2d1-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2d0-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_14",
+              "objectId": "SLIDES_API2026791344_9",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -1011,7 +912,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_15",
+              "objectId": "SLIDES_API2026791344_10",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -1059,7 +960,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_15"
+            "speakerNotesObjectId": "SLIDES_API2026791344_10"
           }
         }
       },
@@ -1067,7 +968,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2d1-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_11",
@@ -1281,10 +1185,169 @@
             }
           }
         }
-      ]
+      ],
+      "slideProperties": {
+        "layoutObjectId": "p9",
+        "masterObjectId": "simple-light-2",
+        "notesPage": {
+          "objectId": "e603b2d1-202b-11f0-9608-b70dca876941:notes",
+          "pageType": "NOTES",
+          "pageElements": [
+            {
+              "objectId": "SLIDES_API2026791344_14",
+              "size": {
+                "width": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                },
+                "height": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                }
+              },
+              "transform": {
+                "translateX": 381300.0,
+                "translateY": 685800.0,
+                "scaleX": 2.032,
+                "scaleY": 1.143,
+                "unit": "EMU"
+              },
+              "shape": {
+                "shapeProperties": {
+                  "outline": {
+                    "propertyState": "INHERIT"
+                  }
+                },
+                "placeholder": {
+                  "type": "SLIDE_IMAGE",
+                  "parentObjectId": "n:slide"
+                }
+              }
+            },
+            {
+              "objectId": "SLIDES_API2026791344_15",
+              "size": {
+                "width": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                },
+                "height": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                }
+              },
+              "transform": {
+                "translateX": 685800.0,
+                "translateY": 4343400.0,
+                "scaleX": 1.8288,
+                "scaleY": 1.3716,
+                "unit": "EMU"
+              },
+              "shape": {
+                "shapeProperties": {
+                  "shapeBackgroundFill": {
+                    "propertyState": "INHERIT"
+                  },
+                  "outline": {
+                    "propertyState": "INHERIT"
+                  },
+                  "shadow": {
+                    "propertyState": "INHERIT"
+                  },
+                  "autofit": {
+                    "fontScale": 1
+                  }
+                },
+                "shapeType": "TEXT_BOX",
+                "placeholder": {
+                  "type": "BODY",
+                  "parentObjectId": "n:text",
+                  "index": 1
+                }
+              }
+            }
+          ],
+          "pageProperties": {
+            "pageBackgroundFill": {
+              "propertyState": "INHERIT"
+            }
+          },
+          "notesProperties": {
+            "speakerNotesObjectId": "SLIDES_API2026791344_15"
+          }
+        }
+      },
+      "pageProperties": {
+        "pageBackgroundFill": {
+          "propertyState": "INHERIT"
+        }
+      }
     },
     {
       "objectId": "e603b2d2-202b-11f0-9608-b70dca876941",
+      "pageElements": [
+        {
+          "objectId": "SLIDES_API2026791344_16",
+          "size": {
+            "width": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            },
+            "height": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            }
+          },
+          "transform": {
+            "translateX": 490250.0,
+            "translateY": 450150.0,
+            "scaleX": 2.1226,
+            "scaleY": 1.3636,
+            "unit": "EMU"
+          },
+          "shape": {
+            "shapeProperties": {
+              "shapeBackgroundFill": {
+                "propertyState": "INHERIT"
+              },
+              "outline": {
+                "propertyState": "INHERIT"
+              },
+              "shadow": {
+                "propertyState": "INHERIT"
+              },
+              "autofit": {
+                "autofitType": "NONE",
+                "fontScale": 1
+              }
+            },
+            "shapeType": "TEXT_BOX",
+            "text": {
+              "textElements": [
+                {
+                  "endIndex": 23,
+                  "paragraphMarker": {
+                    "style": {
+                      "direction": "LEFT_TO_RIGHT"
+                    }
+                  }
+                },
+                {
+                  "endIndex": 23,
+                  "textRun": {
+                    "content": "This is the main point\n",
+                    "style": {}
+                  }
+                }
+              ]
+            },
+            "placeholder": {
+              "type": "TITLE",
+              "parentObjectId": "p8_i0"
+            }
+          }
+        }
+      ],
       "slideProperties": {
         "layoutObjectId": "p8",
         "masterObjectId": "simple-light-2",
@@ -1380,169 +1443,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
-      "pageElements": [
-        {
-          "objectId": "SLIDES_API2026791344_16",
-          "size": {
-            "width": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            },
-            "height": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            }
-          },
-          "transform": {
-            "translateX": 490250.0,
-            "translateY": 450150.0,
-            "scaleX": 2.1226,
-            "scaleY": 1.3636,
-            "unit": "EMU"
-          },
-          "shape": {
-            "shapeProperties": {
-              "shapeBackgroundFill": {
-                "propertyState": "INHERIT"
-              },
-              "outline": {
-                "propertyState": "INHERIT"
-              },
-              "shadow": {
-                "propertyState": "INHERIT"
-              },
-              "autofit": {
-                "autofitType": "NONE",
-                "fontScale": 1
-              }
-            },
-            "shapeType": "TEXT_BOX",
-            "text": {
-              "textElements": [
-                {
-                  "endIndex": 23,
-                  "paragraphMarker": {
-                    "style": {
-                      "direction": "LEFT_TO_RIGHT"
-                    }
-                  }
-                },
-                {
-                  "endIndex": 23,
-                  "textRun": {
-                    "content": "This is the main point\n",
-                    "style": {}
-                  }
-                }
-              ]
-            },
-            "placeholder": {
-              "type": "TITLE",
-              "parentObjectId": "p8_i0"
-            }
-          }
-        }
-      ]
+      }
     },
     {
       "objectId": "e603b2d3-202b-11f0-9608-b70dca876941",
-      "slideProperties": {
-        "layoutObjectId": "p11",
-        "masterObjectId": "simple-light-2",
-        "notesPage": {
-          "objectId": "e603b2d3-202b-11f0-9608-b70dca876941:notes",
-          "pageType": "NOTES",
-          "pageElements": [
-            {
-              "objectId": "SLIDES_API2026791344_21",
-              "size": {
-                "width": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                },
-                "height": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                }
-              },
-              "transform": {
-                "translateX": 381300.0,
-                "translateY": 685800.0,
-                "scaleX": 2.032,
-                "scaleY": 1.143,
-                "unit": "EMU"
-              },
-              "shape": {
-                "shapeProperties": {
-                  "outline": {
-                    "propertyState": "INHERIT"
-                  }
-                },
-                "placeholder": {
-                  "type": "SLIDE_IMAGE",
-                  "parentObjectId": "n:slide"
-                }
-              }
-            },
-            {
-              "objectId": "SLIDES_API2026791344_22",
-              "size": {
-                "width": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                },
-                "height": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                }
-              },
-              "transform": {
-                "translateX": 685800.0,
-                "translateY": 4343400.0,
-                "scaleX": 1.8288,
-                "scaleY": 1.3716,
-                "unit": "EMU"
-              },
-              "shape": {
-                "shapeProperties": {
-                  "shapeBackgroundFill": {
-                    "propertyState": "INHERIT"
-                  },
-                  "outline": {
-                    "propertyState": "INHERIT"
-                  },
-                  "shadow": {
-                    "propertyState": "INHERIT"
-                  },
-                  "autofit": {
-                    "fontScale": 1
-                  }
-                },
-                "shapeType": "TEXT_BOX",
-                "placeholder": {
-                  "type": "BODY",
-                  "parentObjectId": "n:text",
-                  "index": 1
-                }
-              }
-            }
-          ],
-          "pageProperties": {
-            "pageBackgroundFill": {
-              "propertyState": "INHERIT"
-            }
-          },
-          "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_22"
-          }
-        }
-      },
-      "pageProperties": {
-        "pageBackgroundFill": {
-          "propertyState": "INHERIT"
-        }
-      },
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_19",
@@ -1695,19 +1599,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2d4-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
-        "layoutObjectId": "p5",
+        "layoutObjectId": "p11",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2d4-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2d3-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_26",
+              "objectId": "SLIDES_API2026791344_21",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -1738,7 +1639,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_27",
+              "objectId": "SLIDES_API2026791344_22",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -1786,7 +1687,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_27"
+            "speakerNotesObjectId": "SLIDES_API2026791344_22"
           }
         }
       },
@@ -1794,7 +1695,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2d4-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_23",
@@ -2074,19 +1978,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2d5-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p5",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2d5-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2d4-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_31",
+              "objectId": "SLIDES_API2026791344_26",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -2117,7 +2018,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_32",
+              "objectId": "SLIDES_API2026791344_27",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -2165,7 +2066,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_32"
+            "speakerNotesObjectId": "SLIDES_API2026791344_27"
           }
         }
       },
@@ -2173,7 +2074,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2d5-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_28",
@@ -2495,10 +2399,169 @@
             "sourceUrl": "https://picsum.photos/g/1600/900"
           }
         }
-      ]
+      ],
+      "slideProperties": {
+        "layoutObjectId": "p5",
+        "masterObjectId": "simple-light-2",
+        "notesPage": {
+          "objectId": "e603b2d5-202b-11f0-9608-b70dca876941:notes",
+          "pageType": "NOTES",
+          "pageElements": [
+            {
+              "objectId": "SLIDES_API2026791344_31",
+              "size": {
+                "width": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                },
+                "height": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                }
+              },
+              "transform": {
+                "translateX": 381300.0,
+                "translateY": 685800.0,
+                "scaleX": 2.032,
+                "scaleY": 1.143,
+                "unit": "EMU"
+              },
+              "shape": {
+                "shapeProperties": {
+                  "outline": {
+                    "propertyState": "INHERIT"
+                  }
+                },
+                "placeholder": {
+                  "type": "SLIDE_IMAGE",
+                  "parentObjectId": "n:slide"
+                }
+              }
+            },
+            {
+              "objectId": "SLIDES_API2026791344_32",
+              "size": {
+                "width": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                },
+                "height": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                }
+              },
+              "transform": {
+                "translateX": 685800.0,
+                "translateY": 4343400.0,
+                "scaleX": 1.8288,
+                "scaleY": 1.3716,
+                "unit": "EMU"
+              },
+              "shape": {
+                "shapeProperties": {
+                  "shapeBackgroundFill": {
+                    "propertyState": "INHERIT"
+                  },
+                  "outline": {
+                    "propertyState": "INHERIT"
+                  },
+                  "shadow": {
+                    "propertyState": "INHERIT"
+                  },
+                  "autofit": {
+                    "fontScale": 1
+                  }
+                },
+                "shapeType": "TEXT_BOX",
+                "placeholder": {
+                  "type": "BODY",
+                  "parentObjectId": "n:text",
+                  "index": 1
+                }
+              }
+            }
+          ],
+          "pageProperties": {
+            "pageBackgroundFill": {
+              "propertyState": "INHERIT"
+            }
+          },
+          "notesProperties": {
+            "speakerNotesObjectId": "SLIDES_API2026791344_32"
+          }
+        }
+      },
+      "pageProperties": {
+        "pageBackgroundFill": {
+          "propertyState": "INHERIT"
+        }
+      }
     },
     {
       "objectId": "e603b2d6-202b-11f0-9608-b70dca876941",
+      "pageElements": [
+        {
+          "objectId": "SLIDES_API2026791344_33",
+          "size": {
+            "width": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            },
+            "height": {
+              "magnitude": 3000000.0,
+              "unit": "EMU"
+            }
+          },
+          "transform": {
+            "translateX": 311700.0,
+            "translateY": 2150850.0,
+            "scaleX": 2.8402,
+            "scaleY": 0.2806,
+            "unit": "EMU"
+          },
+          "shape": {
+            "shapeProperties": {
+              "shapeBackgroundFill": {
+                "propertyState": "INHERIT"
+              },
+              "outline": {
+                "propertyState": "INHERIT"
+              },
+              "shadow": {
+                "propertyState": "INHERIT"
+              },
+              "autofit": {
+                "autofitType": "NONE",
+                "fontScale": 1
+              }
+            },
+            "shapeType": "TEXT_BOX",
+            "text": {
+              "textElements": [
+                {
+                  "endIndex": 34,
+                  "paragraphMarker": {
+                    "style": {
+                      "direction": "LEFT_TO_RIGHT"
+                    }
+                  }
+                },
+                {
+                  "endIndex": 34,
+                  "textRun": {
+                    "content": "Slides can have background images\n",
+                    "style": {}
+                  }
+                }
+              ]
+            },
+            "placeholder": {
+              "type": "TITLE",
+              "parentObjectId": "p3_i0"
+            }
+          }
+        }
+      ],
       "slideProperties": {
         "layoutObjectId": "p3",
         "masterObjectId": "simple-light-2",
@@ -2606,169 +2669,10 @@
             }
           }
         }
-      },
-      "pageElements": [
-        {
-          "objectId": "SLIDES_API2026791344_33",
-          "size": {
-            "width": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            },
-            "height": {
-              "magnitude": 3000000.0,
-              "unit": "EMU"
-            }
-          },
-          "transform": {
-            "translateX": 311700.0,
-            "translateY": 2150850.0,
-            "scaleX": 2.8402,
-            "scaleY": 0.2806,
-            "unit": "EMU"
-          },
-          "shape": {
-            "shapeProperties": {
-              "shapeBackgroundFill": {
-                "propertyState": "INHERIT"
-              },
-              "outline": {
-                "propertyState": "INHERIT"
-              },
-              "shadow": {
-                "propertyState": "INHERIT"
-              },
-              "autofit": {
-                "autofitType": "NONE",
-                "fontScale": 1
-              }
-            },
-            "shapeType": "TEXT_BOX",
-            "text": {
-              "textElements": [
-                {
-                  "endIndex": 34,
-                  "paragraphMarker": {
-                    "style": {
-                      "direction": "LEFT_TO_RIGHT"
-                    }
-                  }
-                },
-                {
-                  "endIndex": 34,
-                  "textRun": {
-                    "content": "Slides can have background images\n",
-                    "style": {}
-                  }
-                }
-              ]
-            },
-            "placeholder": {
-              "type": "TITLE",
-              "parentObjectId": "p3_i0"
-            }
-          }
-        }
-      ]
+      }
     },
     {
       "objectId": "e603b2d7-202b-11f0-9608-b70dca876941",
-      "slideProperties": {
-        "layoutObjectId": "p4",
-        "masterObjectId": "simple-light-2",
-        "notesPage": {
-          "objectId": "e603b2d7-202b-11f0-9608-b70dca876941:notes",
-          "pageType": "NOTES",
-          "pageElements": [
-            {
-              "objectId": "SLIDES_API2026791344_38",
-              "size": {
-                "width": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                },
-                "height": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                }
-              },
-              "transform": {
-                "translateX": 381300.0,
-                "translateY": 685800.0,
-                "scaleX": 2.032,
-                "scaleY": 1.143,
-                "unit": "EMU"
-              },
-              "shape": {
-                "shapeProperties": {
-                  "outline": {
-                    "propertyState": "INHERIT"
-                  }
-                },
-                "placeholder": {
-                  "type": "SLIDE_IMAGE",
-                  "parentObjectId": "n:slide"
-                }
-              }
-            },
-            {
-              "objectId": "SLIDES_API2026791344_39",
-              "size": {
-                "width": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                },
-                "height": {
-                  "magnitude": 3000000.0,
-                  "unit": "EMU"
-                }
-              },
-              "transform": {
-                "translateX": 685800.0,
-                "translateY": 4343400.0,
-                "scaleX": 1.8288,
-                "scaleY": 1.3716,
-                "unit": "EMU"
-              },
-              "shape": {
-                "shapeProperties": {
-                  "shapeBackgroundFill": {
-                    "propertyState": "INHERIT"
-                  },
-                  "outline": {
-                    "propertyState": "INHERIT"
-                  },
-                  "shadow": {
-                    "propertyState": "INHERIT"
-                  },
-                  "autofit": {
-                    "fontScale": 1
-                  }
-                },
-                "shapeType": "TEXT_BOX",
-                "placeholder": {
-                  "type": "BODY",
-                  "parentObjectId": "n:text",
-                  "index": 1
-                }
-              }
-            }
-          ],
-          "pageProperties": {
-            "pageBackgroundFill": {
-              "propertyState": "INHERIT"
-            }
-          },
-          "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_39"
-          }
-        }
-      },
-      "pageProperties": {
-        "pageBackgroundFill": {
-          "propertyState": "INHERIT"
-        }
-      },
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_36",
@@ -2981,19 +2885,16 @@
             "sourceUrl": "https://picsum.photos/1600/900"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2d8-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2d8-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2d7-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_42",
+              "objectId": "SLIDES_API2026791344_38",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -3024,7 +2925,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_43",
+              "objectId": "SLIDES_API2026791344_39",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -3072,7 +2973,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_43"
+            "speakerNotesObjectId": "SLIDES_API2026791344_39"
           }
         }
       },
@@ -3080,7 +2981,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2d8-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_40",
@@ -3293,19 +3197,16 @@
             "sourceUrl": "https://picsum.photos/1600/900"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2d9-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2d9-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2d8-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_46",
+              "objectId": "SLIDES_API2026791344_42",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -3336,7 +3237,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_47",
+              "objectId": "SLIDES_API2026791344_43",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -3384,7 +3285,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_47"
+            "speakerNotesObjectId": "SLIDES_API2026791344_43"
           }
         }
       },
@@ -3392,7 +3293,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2d9-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_44",
@@ -3845,19 +3749,16 @@
             "sourceUrl": "https://www.gstatic.com/images/branding/product/2x/forms_36dp.png"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2da-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2da-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2d9-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_50",
+              "objectId": "SLIDES_API2026791344_46",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -3888,7 +3789,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_51",
+              "objectId": "SLIDES_API2026791344_47",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -3936,7 +3837,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_51"
+            "speakerNotesObjectId": "SLIDES_API2026791344_47"
           }
         }
       },
@@ -3944,7 +3845,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2da-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_48",
@@ -4157,19 +4061,16 @@
             "sourceUrl": "https://res.cloudinary.com/dyzlnv4o8/image/upload/v1745403335/md2gslides_1745403334171_image_slide.png.png"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603b2db-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603b2db-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2da-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_54",
+              "objectId": "SLIDES_API2026791344_50",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -4200,7 +4101,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_55",
+              "objectId": "SLIDES_API2026791344_51",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -4248,7 +4149,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_55"
+            "speakerNotesObjectId": "SLIDES_API2026791344_51"
           }
         }
       },
@@ -4256,7 +4157,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603b2db-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_52",
@@ -4449,23 +4353,20 @@
               },
               "autoPlay": true
             },
-            "id": "QBcHT0XJRP8",
-            "source": "YOUTUBE"
+            "source": "YOUTUBE",
+            "id": "QBcHT0XJRP8"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e0-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e0-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603b2db-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_58",
+              "objectId": "SLIDES_API2026791344_54",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -4496,7 +4397,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_59",
+              "objectId": "SLIDES_API2026791344_55",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -4544,7 +4445,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_59"
+            "speakerNotesObjectId": "SLIDES_API2026791344_55"
           }
         }
       },
@@ -4552,7 +4453,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e0-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_56",
@@ -4848,19 +4752,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e1-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e1-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e0-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_62",
+              "objectId": "SLIDES_API2026791344_58",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -4891,7 +4792,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_63",
+              "objectId": "SLIDES_API2026791344_59",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -4939,7 +4840,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_63"
+            "speakerNotesObjectId": "SLIDES_API2026791344_59"
           }
         }
       },
@@ -4947,7 +4848,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e1-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_60",
@@ -5275,19 +5179,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e2-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e2-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e1-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_66",
+              "objectId": "SLIDES_API2026791344_62",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -5318,7 +5219,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_67",
+              "objectId": "SLIDES_API2026791344_63",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -5366,7 +5267,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_67"
+            "speakerNotesObjectId": "SLIDES_API2026791344_63"
           }
         }
       },
@@ -5374,7 +5275,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e2-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_64",
@@ -5702,19 +5606,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e3-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e3-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e2-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_70",
+              "objectId": "SLIDES_API2026791344_66",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -5745,7 +5646,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_71",
+              "objectId": "SLIDES_API2026791344_67",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -5793,7 +5694,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_71"
+            "speakerNotesObjectId": "SLIDES_API2026791344_67"
           }
         }
       },
@@ -5801,7 +5702,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e3-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_68",
@@ -7543,19 +7447,16 @@
             ]
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e4-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e4-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e3-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_74",
+              "objectId": "SLIDES_API2026791344_70",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -7586,7 +7487,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_75",
+              "objectId": "SLIDES_API2026791344_71",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -7634,7 +7535,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_75"
+            "speakerNotesObjectId": "SLIDES_API2026791344_71"
           }
         }
       },
@@ -7642,7 +7543,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e4-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_72",
@@ -7915,19 +7819,16 @@
             }
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e5-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e5-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e4-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_78",
+              "objectId": "SLIDES_API2026791344_74",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -7958,7 +7859,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_79",
+              "objectId": "SLIDES_API2026791344_75",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -8006,7 +7907,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_79"
+            "speakerNotesObjectId": "SLIDES_API2026791344_75"
           }
         }
       },
@@ -8014,7 +7915,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e5-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_76",
@@ -8179,19 +8083,16 @@
             "sourceUrl": "https://res.cloudinary.com/dyzlnv4o8/image/upload/v1745403335/md2gslides_1745403334171_tmp-47824-8IkheBRnvzt0-.png.png"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e6-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e6-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e5-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_82",
+              "objectId": "SLIDES_API2026791344_78",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -8222,7 +8123,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_83",
+              "objectId": "SLIDES_API2026791344_79",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -8270,7 +8171,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_83"
+            "speakerNotesObjectId": "SLIDES_API2026791344_79"
           }
         }
       },
@@ -8278,7 +8179,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e6-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_80",
@@ -8443,19 +8347,16 @@
             "sourceUrl": "https://res.cloudinary.com/dyzlnv4o8/image/upload/v1745403335/md2gslides_1745403334171_tmp-47824-xb6EhXQIxqtq-.png.png"
           }
         }
-      ]
-    },
-    {
-      "objectId": "e603d9e7-202b-11f0-9608-b70dca876941",
+      ],
       "slideProperties": {
         "layoutObjectId": "p4",
         "masterObjectId": "simple-light-2",
         "notesPage": {
-          "objectId": "e603d9e7-202b-11f0-9608-b70dca876941:notes",
+          "objectId": "e603d9e6-202b-11f0-9608-b70dca876941:notes",
           "pageType": "NOTES",
           "pageElements": [
             {
-              "objectId": "SLIDES_API2026791344_86",
+              "objectId": "SLIDES_API2026791344_82",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -8486,7 +8387,7 @@
               }
             },
             {
-              "objectId": "SLIDES_API2026791344_87",
+              "objectId": "SLIDES_API2026791344_83",
               "size": {
                 "width": {
                   "magnitude": 3000000.0,
@@ -8534,7 +8435,7 @@
             }
           },
           "notesProperties": {
-            "speakerNotesObjectId": "SLIDES_API2026791344_87"
+            "speakerNotesObjectId": "SLIDES_API2026791344_83"
           }
         }
       },
@@ -8542,7 +8443,10 @@
         "pageBackgroundFill": {
           "propertyState": "INHERIT"
         }
-      },
+      }
+    },
+    {
+      "objectId": "e603d9e7-202b-11f0-9608-b70dca876941",
       "pageElements": [
         {
           "objectId": "SLIDES_API2026791344_84",
@@ -8764,7 +8668,103 @@
             }
           }
         }
-      ]
+      ],
+      "slideProperties": {
+        "layoutObjectId": "p4",
+        "masterObjectId": "simple-light-2",
+        "notesPage": {
+          "objectId": "e603d9e7-202b-11f0-9608-b70dca876941:notes",
+          "pageType": "NOTES",
+          "pageElements": [
+            {
+              "objectId": "SLIDES_API2026791344_86",
+              "size": {
+                "width": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                },
+                "height": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                }
+              },
+              "transform": {
+                "translateX": 381300.0,
+                "translateY": 685800.0,
+                "scaleX": 2.032,
+                "scaleY": 1.143,
+                "unit": "EMU"
+              },
+              "shape": {
+                "shapeProperties": {
+                  "outline": {
+                    "propertyState": "INHERIT"
+                  }
+                },
+                "placeholder": {
+                  "type": "SLIDE_IMAGE",
+                  "parentObjectId": "n:slide"
+                }
+              }
+            },
+            {
+              "objectId": "SLIDES_API2026791344_87",
+              "size": {
+                "width": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                },
+                "height": {
+                  "magnitude": 3000000.0,
+                  "unit": "EMU"
+                }
+              },
+              "transform": {
+                "translateX": 685800.0,
+                "translateY": 4343400.0,
+                "scaleX": 1.8288,
+                "scaleY": 1.3716,
+                "unit": "EMU"
+              },
+              "shape": {
+                "shapeProperties": {
+                  "shapeBackgroundFill": {
+                    "propertyState": "INHERIT"
+                  },
+                  "outline": {
+                    "propertyState": "INHERIT"
+                  },
+                  "shadow": {
+                    "propertyState": "INHERIT"
+                  },
+                  "autofit": {
+                    "fontScale": 1
+                  }
+                },
+                "shapeType": "TEXT_BOX",
+                "placeholder": {
+                  "type": "BODY",
+                  "parentObjectId": "n:text",
+                  "index": 1
+                }
+              }
+            }
+          ],
+          "pageProperties": {
+            "pageBackgroundFill": {
+              "propertyState": "INHERIT"
+            }
+          },
+          "notesProperties": {
+            "speakerNotesObjectId": "SLIDES_API2026791344_87"
+          }
+        }
+      },
+      "pageProperties": {
+        "pageBackgroundFill": {
+          "propertyState": "INHERIT"
+        }
+      }
     },
     {
       "objectId": "e603d9e8-202b-11f0-9608-b70dca876941",

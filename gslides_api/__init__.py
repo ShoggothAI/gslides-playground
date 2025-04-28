@@ -3,7 +3,6 @@ from .domain import (
     Dimension,
     TextElement,
     Video,
-    VideoSource,
     VideoSourceType,
     RgbColor,
     Color,

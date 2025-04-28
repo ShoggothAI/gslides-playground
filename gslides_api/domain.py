@@ -191,18 +191,6 @@ class Color(GSlidesBaseModel):
             return cls(themeColor=theme_color)
         return cls()
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {}
-    #
-    #     if self.rgbColor is not None:
-    #         result["rgbColor"] = self.rgbColor.to_api_format()
-    #
-    #     if self.themeColor is not None:
-    #         result["themeColor"] = self.themeColor.value
-    #
-    #     return result
-
 
 class SolidFill(GSlidesBaseModel):
     """Represents a solid fill with color and alpha."""
@@ -221,18 +209,6 @@ class SolidFill(GSlidesBaseModel):
                 color = Color(**data["color"])
 
         return cls(color=color, alpha=data.get("alpha"))
-
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {}
-    #
-    #     if self.color is not None:
-    #         result["color"] = self.color.to_api_format()
-    #
-    #     if self.alpha is not None:
-    #         result["alpha"] = self.alpha
-    #
-    #     return result
 
 
 class ShapeBackgroundFill(GSlidesBaseModel):
@@ -254,15 +230,6 @@ class OutlineFill(GSlidesBaseModel):
             solid_fill = SolidFill(**data["solidFill"])
             return cls(solidFill=solid_fill)
         return cls()
-
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {}
-    #
-    #     if self.solidFill is not None:
-    #         result["solidFill"] = self.solidFill.to_api_format()
-    #
-    #     return result
 
 
 class Weight(GSlidesBaseModel):
@@ -291,27 +258,6 @@ class Outline(GSlidesBaseModel):
     weight: Optional[Weight] = None
     propertyState: Optional[str] = None
     dashStyle: Optional[DashStyle] = None
-
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = super().model_dump(
-    #         exclude={"outlineFill", "weight", "dashStyle"}, exclude_none=True
-    #     )
-    #
-    #     if self.outlineFill is not None:
-    #         result["outlineFill"] = self.outlineFill.to_api_format()
-    #
-    #     if self.weight is not None:
-    #         result["weight"] = (
-    #             self.weight.to_api_format()
-    #             if hasattr(self.weight, "to_api_format")
-    #             else self.weight
-    #         )
-    #
-    #     if self.dashStyle is not None:
-    #         result["dashStyle"] = self.dashStyle.value
-    #
-    #     return result
 
 
 class ShadowTransform(GSlidesBaseModel):
@@ -363,33 +309,6 @@ class Shadow(GSlidesBaseModel):
     type: Optional[ShadowType] = None
     alignment: Optional[RectanglePosition] = None
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = super().model_dump(
-    #         exclude={"transform", "blurRadius", "color", "type", "alignment"}, exclude_none=True
-    #     )
-    #
-    #     if self.transform is not None:
-    #         result["transform"] = self.transform.to_api_format()
-    #
-    #     if self.blurRadius is not None:
-    #         result["blurRadius"] = (
-    #             self.blurRadius.to_api_format()
-    #             if hasattr(self.blurRadius, "to_api_format")
-    #             else self.blurRadius
-    #         )
-    #
-    #     if self.color is not None:
-    #         result["color"] = self.color.to_api_format()
-    #
-    #     if self.type is not None:
-    #         result["type"] = self.type.value
-    #
-    #     if self.alignment is not None:
-    #         result["alignment"] = self.alignment.value
-    #
-    #     return result
-
 
 class ShapeProperties(GSlidesBaseModel):
     """Represents properties of a shape."""
@@ -407,18 +326,6 @@ class Placeholder(GSlidesBaseModel):
     parentObjectId: Optional[str] = None
     index: Optional[int] = None
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {"type": self.type.value}
-    #
-    #     if self.parentObjectId is not None:
-    #         result["parentObjectId"] = self.parentObjectId
-    #
-    #     if self.index is not None:
-    #         result["index"] = self.index
-    #
-    #     return result
-
 
 class Shape(GSlidesBaseModel):
     """Represents a shape in a slide."""
@@ -427,29 +334,6 @@ class Shape(GSlidesBaseModel):
     shapeType: Optional[ShapeType] = None  # Make optional to preserve original JSON exactly
     text: Optional[Text] = None
     placeholder: Optional[Placeholder] = None
-
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     # Start with a copy of any extra fields
-    #     result = {
-    #         k: v
-    #         for k, v in self.__dict__.items()
-    #         if k not in ["shapeProperties", "shapeType", "text", "placeholder"]
-    #     }
-    #
-    #     # Add the standard fields
-    #     result["shapeProperties"] = self.shapeProperties.to_api_format()
-    #
-    #     if self.shapeType is not None:
-    #         result["shapeType"] = self.shapeType.value
-    #
-    #     if self.text is not None:
-    #         result["text"] = self.text.to_api_format()
-    #
-    #     if self.placeholder is not None:
-    #         result["placeholder"] = self.placeholder.to_api_format()
-    #
-    #     return result
 
 
 class Table(GSlidesBaseModel):
@@ -517,18 +401,6 @@ class Recolor(GSlidesBaseModel):
     recolorStops: Optional[List[ColorStop]] = None
     name: Optional[RecolorName] = None
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {}
-    #
-    #     if self.recolorStops is not None:
-    #         result["recolorStops"] = [stop.to_api_format() for stop in self.recolorStops]
-    #
-    #     if self.name is not None:
-    #         result["name"] = self.name.value
-    #
-    #     return result
-
 
 class ImageProperties(GSlidesBaseModel):
     """Represents properties of an image."""
@@ -541,26 +413,6 @@ class ImageProperties(GSlidesBaseModel):
     outline: Optional[Outline] = None
     shadow: Optional[Shadow] = None
     link: Optional[Dict[str, Any]] = None
-
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = super().model_dump(
-    #         exclude={"cropProperties", "recolor", "outline", "shadow"}, exclude_none=True
-    #     )
-    #
-    #     if self.cropProperties is not None:
-    #         result["cropProperties"] = self.cropProperties.to_api_format()
-    #
-    #     if self.recolor is not None:
-    #         result["recolor"] = self.recolor.to_api_format()
-    #
-    #     if self.outline is not None:
-    #         result["outline"] = self.outline.to_api_format()
-    #
-    #     if self.shadow is not None:
-    #         result["shadow"] = self.shadow.to_api_format()
-    #
-    #     return result
 
 
 class Image(GSlidesBaseModel):
@@ -589,18 +441,6 @@ class Image(GSlidesBaseModel):
                 pass
         return self
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = super().model_dump(exclude={"imageProperties"}, exclude_none=True)
-    #
-    #     if self.imageProperties is not None:
-    #         if isinstance(self.imageProperties, ImageProperties):
-    #             result["imageProperties"] = self.imageProperties.to_api_format()
-    #         else:
-    #             result["imageProperties"] = self.imageProperties
-    #
-    #     return result
-
 
 class VideoSourceType(Enum):
     """Enumeration of possible video source types."""
@@ -610,65 +450,13 @@ class VideoSourceType(Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class VideoSource(GSlidesBaseModel):
-    """Represents a video source with type and optional ID."""
-
-    type: VideoSourceType
-    id: Optional[str] = None
-
-    @classmethod
-    def from_api_format(cls, data: Union[Dict[str, Any], str]) -> "VideoSource":
-        """Create a VideoSource from API format."""
-        if isinstance(data, str):
-            # If it's just a string, assume it's the type
-            return cls(type=VideoSourceType(data))
-        elif isinstance(data, dict) and "type" in data:
-            return cls(type=VideoSourceType(data["type"]), id=data.get("id"))
-        raise ValueError(f"Cannot convert {data} to VideoSource")
-
-
 class Video(GSlidesBaseModel):
     """Represents a video in a slide."""
 
     url: Optional[str] = None
     videoProperties: Optional[Dict[str, Any]] = None
-    source: Optional[Union[Dict[str, Any], VideoSource, str]] = None
+    source: VideoSourceType
     id: Optional[str] = None
-
-    @model_validator(mode="after")
-    def convert_source(self) -> "Video":
-        """Convert source to VideoSource if it's a dict or string."""
-        if self.source is not None and not isinstance(self.source, VideoSource):
-            # Track the original source type
-            if isinstance(self.source, str):
-                self._original_source_type = "str"
-            elif isinstance(self.source, dict):
-                self._original_source_type = "dict"
-            else:
-                self._original_source_type = type(self.source).__name__
-
-            try:
-                self.source = VideoSource.from_api_format(self.source)
-            except (ValueError, TypeError):
-                # Keep as is if conversion fails
-                pass
-        return self
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = super().model_dump(exclude={"source"}, exclude_none=True)
-
-        if self.source is not None:
-            if isinstance(self.source, VideoSource):
-                # Special case: if the original source was a string, return it as a string
-                if hasattr(self, "_original_source_type") and self._original_source_type == "str":
-                    result["source"] = self.source.type.value
-                else:
-                    result["source"] = self.source.to_api_format()
-            else:
-                result["source"] = self.source
-
-        return result
 
 
 class PropertyState(Enum):
@@ -685,15 +473,6 @@ class StretchedPictureFill(GSlidesBaseModel):
     contentUrl: str
     size: Optional[Size] = None
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {"contentUrl": self.contentUrl}
-    #
-    #     if self.size is not None:
-    #         result["size"] = self.size.to_api_format()
-    #
-    #     return result
-
 
 class PageBackgroundFill(GSlidesBaseModel):
     """Represents the background fill of a page."""
@@ -702,39 +481,12 @@ class PageBackgroundFill(GSlidesBaseModel):
     solidFill: Optional[SolidFill] = None
     stretchedPictureFill: Optional[StretchedPictureFill] = None
 
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {}
-    #
-    #     if self.propertyState is not None:
-    #         result["propertyState"] = self.propertyState.value
-    #
-    #     if self.solidFill is not None:
-    #         result["solidFill"] = self.solidFill.to_api_format()
-    #
-    #     if self.stretchedPictureFill is not None:
-    #         result["stretchedPictureFill"] = self.stretchedPictureFill.to_api_format()
-    #
-    #     return result
-
 
 class PageProperties(GSlidesBaseModel):
     """Represents properties of a page."""
 
     pageBackgroundFill: Optional[PageBackgroundFill] = None
     colorScheme: Optional[Dict[str, Any]] = None
-
-    # def to_api_format(self) -> Dict[str, Any]:
-    #     """Convert to the format expected by the Google Slides API."""
-    #     result = {}
-    #
-    #     if self.pageBackgroundFill is not None:
-    #         result["pageBackgroundFill"] = self.pageBackgroundFill.to_api_format()
-    #
-    #     if self.colorScheme is not None:
-    #         result["colorScheme"] = self.colorScheme
-    #
-    #     return result
 
 
 class NotesProperties(GSlidesBaseModel):

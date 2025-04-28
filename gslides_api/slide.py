@@ -2,7 +2,7 @@ from typing import Optional, List, Dict, Any
 import logging
 import copy
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 from gslides_api.domain import PageProperties, GSlidesBaseModel
@@ -21,17 +21,8 @@ class SlideProperties(GSlidesBaseModel):
     masterObjectId: str
     notesPage: Optional[NotesPage] = None
 
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = {"layoutObjectId": self.layoutObjectId, "masterObjectId": self.masterObjectId}
 
-        if self.notesPage is not None:
-            result["notesPage"] = self.notesPage.to_api_format()
-
-        return result
-
-
-class Slide(BaseModel):
+class Slide(GSlidesBaseModel):
     """Represents a slide in a presentation."""
 
     objectId: Optional[str] = None
@@ -40,39 +31,9 @@ class Slide(BaseModel):
     )
     slideProperties: Optional[SlideProperties] = None
     pageProperties: Optional[PageProperties] = None
-    presentation_id: Optional[str] = None  # Store the presentation ID for reference
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        # Start with a copy of any extra fields
-        result = {
-            k: v
-            for k, v in self.__dict__.items()
-            if k
-            not in [
-                "objectId",
-                "pageElements",
-                "slideProperties",
-                "pageProperties",
-                "presentation_id",
-            ]
-        }
-
-        # Add the standard fields
-        if self.objectId is not None:
-            result["objectId"] = self.objectId
-
-        if self.slideProperties is not None:
-            result["slideProperties"] = self.slideProperties.to_api_format()
-
-        if self.pageProperties is not None:
-            result["pageProperties"] = self.pageProperties.to_api_format()
-
-        # Only include pageElements if it exists in the original
-        if self.pageElements is not None:
-            result["pageElements"] = [element.to_api_format() for element in self.pageElements]
-
-        return result
+    presentation_id: Optional[str] = Field(
+        default=None, exclude=True
+    )  # Store the presentation ID for reference but exclude from model_dump
 
     @classmethod
     def create_blank(
