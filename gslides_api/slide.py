@@ -25,7 +25,6 @@ class SlideProperties(GSlidesBaseModel):
 class Slide(GSlidesBaseModel):
     """Represents a slide in a presentation."""
 
-
     objectId: Optional[str] = None
     pageElements: Optional[List[PageElement]] = (
         None  # Make optional to preserve original JSON exactly
@@ -33,6 +32,7 @@ class Slide(GSlidesBaseModel):
     slideProperties: Optional[SlideProperties] = None
     pageProperties: Optional[PageProperties] = None
     pageType: Optional[str] = None  # Added to capture the pageType field
+    layoutProperties: Optional[LayoutProperties] = None
     presentation_id: Optional[str] = Field(
         default=None, exclude=True
     )  # Store the presentation ID for reference but exclude from model_dump
@@ -139,14 +139,14 @@ class Slide(GSlidesBaseModel):
         slides_batch_update(request, self.presentation_id)
 
 
-class Layout(Slide):
-    """Represents a layout in a presentation."""
-
-    layoutProperties: Optional[LayoutProperties] = None
-
-    def to_api_format(self) -> Dict[str, Any]:
-        """Convert to the format expected by the Google Slides API."""
-        result = super().to_api_format()
-        if self.layoutProperties:
-            result["layoutProperties"] = self.layoutProperties.to_api_format()
-        return result
+# class Layout(Slide):
+#     """Represents a layout in a presentation."""
+#
+#
+#
+#     def to_api_format(self) -> Dict[str, Any]:
+#         """Convert to the format expected by the Google Slides API."""
+#         result = super().to_api_format()
+#         if self.layoutProperties:
+#             result["layoutProperties"] = self.layoutProperties.to_api_format()
+#         return result
