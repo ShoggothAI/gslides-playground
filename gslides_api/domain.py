@@ -488,13 +488,83 @@ class VideoSourceType(Enum):
     UNKNOWN = "UNKNOWN"
 
 
+class VideoProperties(GSlidesBaseModel):
+    """Represents properties of a video.
+
+    As defined in the Google Slides API:
+    https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations.pages/videos#videoproperties
+    """
+
+    outline: Optional[Outline] = None
+    autoPlay: Optional[bool] = None
+    start: Optional[int] = None
+    end: Optional[int] = None
+    mute: Optional[bool] = None
+
+
 class Video(GSlidesBaseModel):
     """Represents a video in a slide."""
 
     url: Optional[str] = None
-    videoProperties: Optional[Dict[str, Any]] = None
-    source: VideoSourceType
+    videoProperties: Optional[VideoProperties] = None
+    source: Optional[VideoSourceType] = None
     id: Optional[str] = None
+
+
+class LineProperties(GSlidesBaseModel):
+    """Represents properties of a line."""
+
+    outline: Optional[Outline] = None
+    shadow: Optional[Shadow] = None
+    link: Optional[Dict[str, Any]] = None
+
+
+class Line(GSlidesBaseModel):
+    """Represents a line in a slide."""
+
+    lineProperties: Optional[LineProperties] = None
+    lineType: Optional[str] = None
+
+
+class WordArt(GSlidesBaseModel):
+    """Represents word art in a slide."""
+
+    renderedText: Optional[str] = None
+
+
+class SheetsChartProperties(GSlidesBaseModel):
+    """Represents properties of a sheets chart."""
+
+    outline: Optional[Outline] = None
+    shadow: Optional[Shadow] = None
+
+
+class SheetsChart(GSlidesBaseModel):
+    """Represents a sheets chart in a slide."""
+
+    spreadsheetId: Optional[str] = None
+    chartId: Optional[int] = None
+    contentUrl: Optional[str] = None
+    sheetsChartProperties: Optional[SheetsChartProperties] = None
+
+
+class SpeakerSpotlightProperties(GSlidesBaseModel):
+    """Represents properties of a speaker spotlight."""
+
+    outline: Optional[Outline] = None
+    shadow: Optional[Shadow] = None
+
+
+class SpeakerSpotlight(GSlidesBaseModel):
+    """Represents a speaker spotlight in a slide."""
+
+    speakerSpotlightProperties: Optional[SpeakerSpotlightProperties] = None
+
+
+class Group(GSlidesBaseModel):
+    """Represents a group of page elements."""
+
+    children: Optional[List[Any]] = None  # This will be a list of PageElement objects
 
 
 class PropertyState(Enum):
@@ -573,7 +643,8 @@ class LayoutReference(GSlidesBaseModel):
     @model_validator(mode="after")
     def validate_exactly_one_field_set(self) -> "LayoutReference":
         """Validate that exactly one of layoutId or predefinedLayout is set."""
-        if (self.layoutId is None and self.predefinedLayout is None) or \
-           (self.layoutId is not None and self.predefinedLayout is not None):
+        if (self.layoutId is None and self.predefinedLayout is None) or (
+            self.layoutId is not None and self.predefinedLayout is not None
+        ):
             raise ValueError("Exactly one of layoutId or predefinedLayout must be set")
         return self

@@ -4341,15 +4341,15 @@
                     "color": {
                       "themeColor": "DARK2"
                     },
-                    "alpha": 1
+                    "alpha": 1.0
                   }
                 },
                 "weight": {
-                  "magnitude": 9525,
+                  "magnitude": 9525.0,
                   "unit": "EMU"
                 },
-                "dashStyle": "SOLID",
-                "propertyState": "NOT_RENDERED"
+                "propertyState": "NOT_RENDERED",
+                "dashStyle": "SOLID"
               },
               "autoPlay": true
             },

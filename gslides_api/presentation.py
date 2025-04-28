@@ -15,7 +15,7 @@ class Presentation(GSlidesBaseModel):
 
     presentationId: Optional[str]
     pageSize: Size
-    slides: List[Page]
+    slides: Optional[List[Page]] = None
     title: Optional[str] = None
     locale: Optional[str] = None
     revisionId: Optional[str] = None
@@ -44,8 +44,9 @@ class Presentation(GSlidesBaseModel):
         out = cls.model_validate(json_data)
 
         # Set presentation_id on slides
-        for s in out.slides:
-            s.presentation_id = out.presentationId
+        if out.slides is not None:
+            for s in out.slides:
+                s.presentation_id = out.presentationId
 
         return out
 

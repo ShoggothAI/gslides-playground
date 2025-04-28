@@ -3,6 +3,7 @@ from .domain import (
     Dimension,
     TextElement,
     Video,
+    VideoProperties,
     VideoSourceType,
     RgbColor,
     Color,
@@ -35,6 +36,14 @@ from .domain import (
     PredefinedLayout,
     ColorScheme,
     ThemeColorPair,
+    Line,
+    LineProperties,
+    WordArt,
+    SheetsChart,
+    SheetsChartProperties,
+    SpeakerSpotlight,
+    SpeakerSpotlightProperties,
+    Group,
 )
 from .presentation import Presentation
 from .page import Page, LayoutProperties, SlidePageProperties

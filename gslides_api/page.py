@@ -12,7 +12,9 @@ from gslides_api.domain import (
     PageType,
     LayoutReference,
 )
-from gslides_api.element import PageElement
+
+# Import PageElement and ElementKind directly to avoid circular imports
+from gslides_api.element import PageElement, ElementKind
 from gslides_api.execute import slides_batch_update, get_slide_json
 from gslides_api.utils import duplicate_object, delete_object, dict_to_dot_separated_field_list
 
@@ -164,15 +166,21 @@ class Page(GSlidesBaseModel):
         slides_batch_update(request, presentation_id)
 
         if self.pageElements is not None:
-
-            for element in self.pageElements:
-                element_id = element.create_copy(slide_id, presentation_id)
-                element.update(presentation_id, element_id)
+            # Some elements came from layout, some were created manually
+            # Let's first match those that came from layout, before creating new ones
+            for kind in ElementKind:
+                my_elements = self.select_elements(kind)
+                layout_elements = new_slide.select_elements(kind)
+                for i, element in enumerate(my_elements):
+                    if i < len(layout_elements):
+                        element_id = layout_elements[i].objectId
+                    else:
+                        element_id = element.create_copy(slide_id, presentation_id)
+                    element.update(presentation_id, element_id)
 
         return self.from_ids(presentation_id, slide_id)
 
-    @property
-    def select_elements(self, kind: str = None):
+    def select_elements(self, kind: ElementKind) -> List[PageElement]:
         if self.pageElements is None:
             return []
         return [e for e in self.pageElements if getattr(e, kind.value) is not None]

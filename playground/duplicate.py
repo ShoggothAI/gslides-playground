@@ -1,8 +1,6 @@
 import logging
-from typing import Any
-
-import gslides
-from gslides import creds as re_creds
+import time
+from googleapiclient.errors import HttpError
 
 from gslides_api import Presentation, initialize_credentials
 
@@ -33,8 +31,16 @@ new_p.slides[0].delete()
 new_p.sync_from_cloud()
 
 
-# for i, slide in enumerate(presentation.slides):
-#     if i > 13:
-#         slide.write_copy(presentation_id=new_p.presentationId)
+for i, slide in enumerate(presentation.slides):
+    try:
+        slide.write_copy(presentation_id=new_p.presentationId)
+    except Exception as e:
+        if isinstance(e, HttpError) and e.resp.status == 429:
+            print("We probably hit the rate limit: sleeping for 60s")
+            time.sleep(60)
+            slide.write_copy(presentation_id=new_p.presentationId)
+        else:
+            raise e
+
 
 print("yay!")
