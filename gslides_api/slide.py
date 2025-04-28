@@ -5,7 +5,14 @@ import copy
 from pydantic import BaseModel, Field
 
 
-from gslides_api.domain import PageProperties, GSlidesBaseModel, LayoutProperties
+from gslides_api.domain import (
+    PageProperties,
+    GSlidesBaseModel,
+    LayoutProperties,
+    MasterProperties,
+    NotesProperties,
+    PageType,
+)
 from gslides_api.element import PageElement
 from gslides_api.execute import slides_batch_update
 from gslides_api.notes import NotesPage
@@ -29,13 +36,18 @@ class Slide(GSlidesBaseModel):
     pageElements: Optional[List[PageElement]] = (
         None  # Make optional to preserve original JSON exactly
     )
-    slideProperties: Optional[SlideProperties] = None
+    revisionId: Optional[str] = None
     pageProperties: Optional[PageProperties] = None
-    pageType: Optional[str] = None  # Added to capture the pageType field
+    pageType: Optional[PageType] = None
+
+    # Union field properties - only one of these should be set
+    slideProperties: Optional[SlideProperties] = None
     layoutProperties: Optional[LayoutProperties] = None
-    presentation_id: Optional[str] = Field(
-        default=None, exclude=True
-    )  # Store the presentation ID for reference but exclude from model_dump
+    notesProperties: Optional[NotesProperties] = None
+    masterProperties: Optional[MasterProperties] = None
+
+    # Store the presentation ID for reference but exclude from model_dump
+    presentation_id: Optional[str] = Field(default=None, exclude=True)
 
     @classmethod
     def create_blank(
@@ -139,14 +151,7 @@ class Slide(GSlidesBaseModel):
         slides_batch_update(request, self.presentation_id)
 
 
-# class Layout(Slide):
-#     """Represents a layout in a presentation."""
-#
-#
-#
-#     def to_api_format(self) -> Dict[str, Any]:
-#         """Convert to the format expected by the Google Slides API."""
-#         result = super().to_api_format()
-#         if self.layoutProperties:
-#             result["layoutProperties"] = self.layoutProperties.to_api_format()
-#         return result
+class Layout(Slide):
+    """Represents a layout in a presentation."""
+
+    pass

@@ -31,7 +31,12 @@ from .domain import (
     AutoText,
     AutoTextType,
     LayoutProperties,
+    MasterProperties,
+    NotesProperties,
+    PageType,
+    ColorScheme,
+    ThemeColorPair,
 )
 from .presentation import Presentation
-from .slide import Slide
+from .slide import Slide, Layout
 from .credentials import initialize_credentials

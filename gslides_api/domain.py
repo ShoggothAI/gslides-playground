@@ -184,6 +184,19 @@ class ThemeColorType(Enum):
     BACKGROUND2 = "BACKGROUND2"
 
 
+class ThemeColorPair(GSlidesBaseModel):
+    """Represents a mapping of a theme color type to its concrete color."""
+
+    type: ThemeColorType
+    color: RgbColor
+
+
+class ColorScheme(GSlidesBaseModel):
+    """Represents a predefined color palette for a page."""
+
+    colors: List[ThemeColorPair] = []
+
+
 class Color(GSlidesBaseModel):
     """Represents a color with RGB values."""
 
@@ -512,7 +525,7 @@ class PageProperties(GSlidesBaseModel):
     """Represents properties of a page."""
 
     pageBackgroundFill: Optional[PageBackgroundFill] = None
-    colorScheme: Optional[Dict[str, Any]] = None
+    colorScheme: Optional[ColorScheme] = None
 
 
 class LayoutProperties(GSlidesBaseModel):
@@ -527,3 +540,22 @@ class NotesProperties(GSlidesBaseModel):
     """Represents properties of notes."""
 
     speakerNotesObjectId: str
+
+
+class MasterProperties(GSlidesBaseModel):
+    """Represents properties of a master slide."""
+
+    displayName: Optional[str] = None
+
+
+class PageType(Enum):
+    """Enumeration of possible page types."""
+
+    SLIDE = "SLIDE"
+    MASTER = "MASTER"
+    LAYOUT = "LAYOUT"
+    NOTES = "NOTES"
+    NOTES_MASTER = "NOTES_MASTER"
+
+
+
