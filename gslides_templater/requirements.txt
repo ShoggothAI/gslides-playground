@@ -1,0 +1,6 @@
+google-api-python-client==2.169.0
+google-auth==2.40.1
+google-auth-oauthlib==1.2.2
+loguru==0.7.3
+rich==14.0.0
+tenacity==9.1.2
