@@ -1,13 +1,41 @@
 """
 Google Slides Templater
-======================
-
-A modern Python library for creating and filling Google Slides templates.
 """
 
-__version__ = "0.1.0"
+from .core import SlidesTemplater, create_templater
+from .markdown_processor import (
+    MarkdownProcessor,
+    markdown_to_slides_elements,
+    slides_elements_to_markdown,
+    clean_markdown_for_slides
+)
+from .auth import (
+    authenticate,
+    CredentialManager,
+    Credentials,
+    setup_oauth_flow,
+    validate_credentials,
+    get_credentials_info,
+    create_service_account_template,
+    create_oauth_template,
+    check_credentials_file
+)
 
-from gslides_templater.client import SlidesClient
-from gslides_templater.auth import authenticate, Credentials
 
-__all__ = ["SlidesClient", "authenticate", "Credentials"]
+__all__ = [
+    'SlidesTemplater',
+    'MarkdownProcessor',
+    'CredentialManager',
+    'Credentials',
+    'create_templater',
+    'authenticate',
+    'setup_oauth_flow',
+    'markdown_to_slides_elements',
+    'slides_elements_to_markdown',
+    'clean_markdown_for_slides',
+    'validate_credentials',
+    'get_credentials_info',
+    'create_service_account_template',
+    'create_oauth_template',
+    'check_credentials_file',
+]
